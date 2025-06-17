@@ -59,7 +59,7 @@ export default function Home() {
       const form = e.target as HTMLFormElement;
       const email = (form.querySelector('input') as HTMLInputElement)?.value;
       if (email) {
-        alert('感謝您的訂閱！我們將定期寄送最新資訊給您。');
+        alert('感謝您的訂閱！我們將定期寄送企業經營洞察給您。');
         (form.querySelector('input') as HTMLInputElement).value = '';
       }
     };
@@ -96,7 +96,7 @@ export default function Home() {
     document.querySelector('.mobile-menu-toggle')?.addEventListener('click', handleMobileMenuClick);
 
     // Observe elements for animations
-    document.querySelectorAll('.service-block, .case-card, .value-item').forEach(el => {
+    document.querySelectorAll('.case-card, .pain-point, .feature-card, .value-item').forEach(el => {
       const element = el as HTMLElement;
       element.style.opacity = '0';
       element.style.transform = 'translateY(20px)';
@@ -124,13 +124,13 @@ export default function Home() {
             <div className="logo-mark"></div>
             專注 | PROCUS
           </a>
-          <ul className="nav-menu">
-            <li><a href="#services">服務介紹</a></li>
-            <li><a href="#cases">成功案例</a></li>
-            <li><a href="#about">關於我們</a></li>
-            <li><a href="#faq">常見問題</a></li>
-            <li><a href="#contact" className="contact-btn">聯絡我們</a></li>
-          </ul>
+          <div className="nav-menu">
+            <a href="#why-procus">為何選擇專注</a>
+            <a href="#cases">成功案例</a>
+            <a href="#services">服務流程</a>
+            <a href="#about">關於我們</a>
+            <a href="consultation.html" className="contact-btn">立即諮詢</a>
+          </div>
           <div className="mobile-menu-toggle">
             <span></span>
             <span></span>
@@ -148,233 +148,261 @@ export default function Home() {
             共創真實的商業價值
           </h1>
           <p className="hero-subtitle">
-            一站式注入專業與經驗，讓企業主專注在策略與成長
+            我們是專家與企業間的橋樑，讓有經驗的專家與你並肩同行
           </p>
           
-          <div className="entry-points">
-            <div className="entry-card">
-              <span className="entry-icon">🏢</span>
-              <h3>我是企業主</h3>
-              <p>尋找專業顧問協助<br/>解決經營痛點，提升營運效率</p>
-              <a href="/consultant" className="entry-btn">
-                尋找顧問協助
-                <span>→</span>
-              </a>
-            </div>
-            
-            <div className="entry-card">
-              <span className="entry-icon">💼</span>
-              <h3>我是專家</h3>
-              <p>打造個人品牌<br/>透過平台提供顧問服務變現</p>
-              <a href="/expert" className="entry-btn">
-                成為平台顧問
-                <span>→</span>
-              </a>
-            </div>
+          <div className="hero-cta">
+            <a href="consultation.html" className="cta-primary">
+              預約免費諮詢
+              <span>→</span>
+            </a>
+            <a href="#services" className="cta-secondary">
+              了解服務流程
+            </a>
           </div>
         </div>
       </section>
 
-      <div className="section-divider"></div>
-
-      {/* Services Section */}
-      <section id="services" className="services-section">
-        <div className="section-header">
-          <div className="section-tag">OUR SERVICES</div>
-          <h2 className="section-title">為不同需求打造的專業服務</h2>
-          <p className="section-desc">
-            無論您是尋求專業協助的企業主，或是想要發展顧問事業的專家<br/>
-            我們都能提供最適合的解決方案
-          </p>
-        </div>
-
-        <div className="services-grid">
-          {/* Business Services */}
-          <div id="business-services" className="service-block">
-            <h3>
-              <span className="service-number">01</span>
-              企業顧問媒合服務
-            </h3>
+      {/* Pain Points & Value Section */}
+      <section id="why-procus" className="pain-points-section">
+        <div className="pain-points-container">
+          <div className="pain-points-content">
+            <h2>
+              您是否正面臨這些<br/>
+              <strong>經營挑戰</strong>？
+            </h2>
             
-            <div className="process-flow">
-              <div className="process-step">
-                <div className="step-icon">🔍</div>
-                <div className="step-title">問題診斷</div>
-                <div className="step-desc">深入了解痛點</div>
-              </div>
-              <div className="process-step">
-                <div className="step-icon">🤝</div>
-                <div className="step-title">媒合顧問</div>
-                <div className="step-desc">精準配對專家</div>
-              </div>
-              <div className="process-step">
-                <div className="step-icon">🚀</div>
-                <div className="step-title">協作落地</div>
-                <div className="step-desc">陪跑執行方案</div>
-              </div>
-              <div className="process-step">
-                <div className="step-icon">📊</div>
-                <div className="step-title">效益追蹤</div>
-                <div className="step-desc">持續優化改善</div>
-              </div>
-            </div>
-            
-            <div className="feature-list">
-              <div className="feature-item">
-                <div className="feature-check"></div>
-                <div className="feature-text">
-                  <h4>解決人才缺口</h4>
-                  <p>快速引入專業人才，填補關鍵職能空缺</p>
+            <div className="pain-points-list">
+              <div className="pain-point">
+                <span className="pain-icon">⚠️</span>
+                <div className="pain-text">
+                  <h4>商業模式混亂</h4>
+                  <p>營運方向不清晰，缺乏系統化的商業策略</p>
                 </div>
               </div>
-              <div className="feature-item">
-                <div className="feature-check"></div>
-                <div className="feature-text">
-                  <h4>導入專業工具</h4>
-                  <p>協助評估並導入適合的管理工具與系統</p>
+              
+              <div className="pain-point">
+                <span className="pain-icon">⚠️</span>
+                <div className="pain-text">
+                  <h4>營銷漏斗不明</h4>
+                  <p>客戶旅程斷層，無法有效轉換潛在客戶</p>
                 </div>
               </div>
-              <div className="feature-item">
-                <div className="feature-check"></div>
-                <div className="feature-text">
-                  <h4>策略規劃執行</h4>
-                  <p>從策略制定到執行落地的完整陪伴</p>
+              
+              <div className="pain-point">
+                <span className="pain-icon">⚠️</span>
+                <div className="pain-text">
+                  <h4>缺乏領域經驗</h4>
+                  <p>跨入新市場或產業，缺少實戰know-how</p>
+                </div>
+              </div>
+              
+              <div className="pain-point">
+                <span className="pain-icon">⚠️</span>
+                <div className="pain-text">
+                  <h4>專業人才難尋</h4>
+                  <p>關鍵職能缺口，但難以找到合適的專業人才</p>
                 </div>
               </div>
             </div>
-            
-            <a href="/consultant" className="cta-primary">
-              預約顧問諮詢
-              <span>→</span>
-            </a>
           </div>
-
-          {/* Expert Services */}
-          <div id="expert-services" className="service-block">
-            <h3>
-              <span className="service-number">02</span>
-              專家品牌打造服務
-            </h3>
+          
+          <div className="value-proposition">
+            <h3>專注平台的價值</h3>
+            <p style={{color: 'var(--text-gray)', marginBottom: '2rem'}}>
+              我們不只是媒合顧問，更是您的成長夥伴
+            </p>
             
-            <div className="process-flow">
-              <div className="process-step">
-                <div className="step-icon">🌐</div>
-                <div className="step-title">建立專頁</div>
-                <div className="step-desc">個人品牌官網</div>
+            <div className="value-grid">
+              <div className="value-item">
+                <div className="value-check"></div>
+                <span className="value-text">嚴選認證的產業專家</span>
               </div>
-              <div className="process-step">
-                <div className="step-icon">📅</div>
-                <div className="step-title">開啟預約</div>
-                <div className="step-desc">智能排程系統</div>
+              <div className="value-item">
+                <div className="value-check"></div>
+                <span className="value-text">精準匹配企業需求</span>
               </div>
-              <div className="process-step">
-                <div className="step-icon">📈</div>
-                <div className="step-title">內容行銷</div>
-                <div className="step-desc">擴大影響力</div>
+              <div className="value-item">
+                <div className="value-check"></div>
+                <span className="value-text">陪伴式顧問服務</span>
               </div>
-              <div className="process-step">
-                <div className="step-icon">💰</div>
-                <div className="step-title">服務變現</div>
-                <div className="step-desc">穩定收入來源</div>
+              <div className="value-item">
+                <div className="value-check"></div>
+                <span className="value-text">成效導向收費模式</span>
               </div>
             </div>
             
-            <div className="feature-list">
-              <div className="feature-item">
-                <div className="feature-check"></div>
-                <div className="feature-text">
-                  <h4>專業形象網站</h4>
-                  <p>快速建立個人品牌官網，展現專業價值</p>
-                </div>
-              </div>
-              <div className="feature-item">
-                <div className="feature-check"></div>
-                <div className="feature-text">
-                  <h4>自動化預約系統</h4>
-                  <p>智能管理諮詢時段，提升服務效率</p>
-                </div>
-              </div>
-              <div className="feature-item">
-                <div className="feature-check"></div>
-                <div className="feature-text">
-                  <h4>平台流量導入</h4>
-                  <p>善用平台資源，持續獲得潛在客戶</p>
-                </div>
-              </div>
-            </div>
-            
-            <a href="/expert" className="cta-primary">
-              申請成為平台專家
+            <a href="consultation.html" className="cta-primary" style={{marginTop: '2rem'}}>
+              立即解決經營難題
               <span>→</span>
             </a>
           </div>
         </div>
       </section>
 
-      {/* Success Cases */}
+      {/* Success Cases Section */}
       <section id="cases" className="cases-section">
         <div className="section-header">
           <div className="section-tag">SUCCESS STORIES</div>
-          <h2 className="section-title">企業與專家的共贏故事</h2>
+          <h2 className="section-title">真實的轉型成果</h2>
           <p className="section-desc">
-            每一個成功案例，都是企業需求與專業資源的完美對接
+            我們相信每一間企業都應該被專業與經驗支持
           </p>
         </div>
 
         <div className="cases-grid">
           <div className="case-card">
             <div className="case-industry">製造業</div>
-            <h3 className="case-title">傳統製造業數位轉型</h3>
+            <h3 className="case-title">傳統工廠智慧轉型</h3>
             <p className="case-desc">
-              透過平台媒合數位轉型專家，6個月內成功導入智慧製造系統，建立數據驅動的管理模式。
+              協助 30 年傳統製造廠導入 IoT 與數據分析系統，建立智慧生產線，大幅提升營運效率。
             </p>
             <div className="case-metrics">
               <div className="metric-item">
                 <span className="metric-value">45%</span>
-                <span className="metric-label">生產效率提升</span>
+                <span className="metric-label">生產效率</span>
               </div>
               <div className="metric-item">
                 <span className="metric-value">30%</span>
-                <span className="metric-label">營運成本降低</span>
+                <span className="metric-label">成本降低</span>
+              </div>
+              <div className="metric-item">
+                <span className="metric-value">6個月</span>
+                <span className="metric-label">回收期</span>
               </div>
             </div>
           </div>
 
           <div className="case-card">
-            <div className="case-industry">電商零售</div>
-            <h3 className="case-title">新創電商品牌重塑</h3>
+            <div className="case-industry">零售電商</div>
+            <h3 className="case-title">全通路營銷優化</h3>
             <p className="case-desc">
-              行銷專家協助重新定位品牌策略，優化全通路行銷佈局，成功打造差異化競爭優勢。
+              重新規劃品牌定位與行銷策略，整合線上線下通路，創造差異化競爭優勢。
             </p>
             <div className="case-metrics">
               <div className="metric-item">
                 <span className="metric-value">180%</span>
-                <span className="metric-label">年營收成長</span>
+                <span className="metric-label">營收成長</span>
               </div>
               <div className="metric-item">
-                <span className="metric-value">3.5X</span>
-                <span className="metric-label">轉換率提升</span>
+                <span className="metric-value">3.5倍</span>
+                <span className="metric-label">轉換率</span>
+              </div>
+              <div className="metric-item">
+                <span className="metric-value">65%</span>
+                <span className="metric-label">回購率</span>
               </div>
             </div>
           </div>
 
           <div className="case-card">
             <div className="case-industry">服務業</div>
-            <h3 className="case-title">連鎖餐飲營運優化</h3>
+            <h3 className="case-title">連鎖餐飲標準化</h3>
             <p className="case-desc">
-              導入營運管理顧問，建立標準化流程與培訓體系，快速複製成功經驗至各分店。
+              建立完整 SOP 與培訓體系，協助從單店擴展至 15 家分店，確保服務品質一致性。
             </p>
             <div className="case-metrics">
               <div className="metric-item">
-                <span className="metric-value">25%</span>
-                <span className="metric-label">人力成本優化</span>
+                <span className="metric-value">15家</span>
+                <span className="metric-label">成功展店</span>
               </div>
               <div className="metric-item">
                 <span className="metric-value">92%</span>
-                <span className="metric-label">客戶滿意度</span>
+                <span className="metric-label">品質一致</span>
+              </div>
+              <div className="metric-item">
+                <span className="metric-value">25%</span>
+                <span className="metric-label">人力優化</span>
               </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section id="services" className="services-section">
+        <div className="section-header">
+          <div className="section-tag">OUR PROCESS</div>
+          <h2 className="section-title">專業顧問媒合流程</h2>
+          <p className="section-desc">
+            透過系統化的流程，確保每次合作都能創造最大價值
+          </p>
+        </div>
+
+        <div className="process-container">
+          <div className="process-header">
+            <h3>四步驟開啟轉型之旅</h3>
+            <p style={{color: 'var(--text-gray)'}}>從需求了解到成效追蹤，全程陪伴您的企業成長</p>
+          </div>
+          
+          <div className="process-steps">
+            <div className="process-step">
+              <div className="step-icon">🔍</div>
+              <div className="step-title">深度診斷</div>
+              <div className="step-desc">免費諮詢了解企業現況與核心痛點</div>
+            </div>
+            <div className="process-step">
+              <div className="step-icon">🤝</div>
+              <div className="step-title">精準媒合</div>
+              <div className="step-desc">24小時內推薦3位最適合的專家</div>
+            </div>
+            <div className="process-step">
+              <div className="step-icon">🚀</div>
+              <div className="step-title">啟動專案</div>
+              <div className="step-desc">顧問進駐，展開客製化輔導</div>
+            </div>
+            <div className="process-step">
+              <div className="step-icon">📊</div>
+              <div className="step-title">成效追蹤</div>
+              <div className="step-desc">定期檢視進度，確保目標達成</div>
+            </div>
+          </div>
+          
+          <div className="service-features">
+            <div className="feature-card">
+              <div className="feature-icon">🎯</div>
+              <h4>產業專精</h4>
+              <p>500+ 位各領域認證專家，涵蓋製造、零售、服務、科技等產業</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon">💡</div>
+              <h4>實戰經驗</h4>
+              <p>平均 15 年以上產業經驗，曾協助超過 1,200 家企業成功轉型</p>
+            </div>
+            <div className="feature-card">
+              <div className="feature-icon">🛡️</div>
+              <h4>成效保證</h4>
+              <p>階段性付款機制，未達成目標提供額外支援或部分退款</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="cta-section">
+        <div className="cta-content">
+          <h2>準備好突破經營瓶頸了嗎？</h2>
+          <p>立即預約免費諮詢，讓專業顧問協助您找到最佳解決方案</p>
+          
+          <div className="cta-stats">
+            <div className="cta-stat">
+              <span className="cta-stat-number">500+</span>
+              <span className="cta-stat-label">認證顧問</span>
+            </div>
+            <div className="cta-stat">
+              <span className="cta-stat-number">1,200+</span>
+              <span className="cta-stat-label">成功案例</span>
+            </div>
+            <div className="cta-stat">
+              <span className="cta-stat-number">95%</span>
+              <span className="cta-stat-label">客戶滿意度</span>
+            </div>
+          </div>
+          
+          <a href="consultation.html" className="cta-primary">
+            預約免費諮詢
+            <span>→</span>
+          </a>
         </div>
       </section>
 
@@ -382,15 +410,15 @@ export default function Home() {
       <section id="about" className="about-section">
         <div className="about-content">
           <div className="about-text">
-            <h2>陪伴客戶走得更長遠</h2>
+            <h2>陪伴企業走得更長遠</h2>
             <p>
-              專注 Procus 不只是一個顧問媒合平台，更是企業成長路上的戰略夥伴。我們深信，真正的價值來自於持續的陪伴與落地執行。
+              專注 Procus 深信，真正的顧問價值不在於提供建議，而在於陪伴執行與落地實踐。
             </p>
             <p>
-              透過嚴選的專業顧問網絡，我們協助企業解決關鍵問題，同時為專家打造個人品牌，創造雙贏的商業生態圈。
+              我們嚴選各領域的實戰專家，不只提供策略規劃，更重視執行陪跑，確保每個建議都能轉化為實際成果。
             </p>
             <p>
-              我們的使命是讓每一次的顧問合作，都能創造實質的商業價值，推動企業持續成長。
+              透過系統化的媒合機制與成效追蹤，我們已協助超過 1,200 家企業成功轉型，創造可量化的商業價值。
             </p>
           </div>
           
@@ -398,22 +426,22 @@ export default function Home() {
             <div className="value-item">
               <span className="value-icon">🤝</span>
               <h3 className="value-title">信任</h3>
-              <p className="value-desc">建立透明可靠的合作關係</p>
+              <p className="value-desc">透明的合作機制</p>
             </div>
             <div className="value-item">
               <span className="value-icon">🎯</span>
               <h3 className="value-title">專業</h3>
-              <p className="value-desc">嚴選各領域實戰專家</p>
+              <p className="value-desc">嚴選認證專家</p>
             </div>
             <div className="value-item">
               <span className="value-icon">🚀</span>
               <h3 className="value-title">落地</h3>
-              <p className="value-desc">注重執行與成果追蹤</p>
+              <p className="value-desc">重視執行成效</p>
             </div>
             <div className="value-item">
               <span className="value-icon">🌱</span>
               <h3 className="value-title">成長</h3>
-              <p className="value-desc">持續優化共同進步</p>
+              <p className="value-desc">持續優化改善</p>
             </div>
           </div>
         </div>
@@ -437,23 +465,9 @@ export default function Home() {
             </div>
             <div className="faq-answer">
               <p>
-                顧問費用依據專業領域、經驗年資與服務內容而定。平台提供透明的價格區間參考，
-                企業可依預算選擇適合的顧問。我們也提供首次諮詢優惠方案，讓企業能以較低成本
-                評估顧問的適配性。
-              </p>
-            </div>
-          </div>
-
-          <div className="faq-item">
-            <div className="faq-question">
-              <h4>平台如何收費？</h4>
-              <span className="faq-arrow">▼</span>
-            </div>
-            <div className="faq-answer">
-              <p>
-                企業主可免費使用平台尋找顧問。專家端採用訂閱制，提供基礎版、專業版、企業版
-                三種會員方案，包含個人網站、預約系統、行銷工具等功能。成交後我們收取 10-15% 
-                的平台服務費，確保持續提供優質的媒合與支援服務。
+                顧問費用依據專案複雜度、所需時間與顧問資歷而定。我們提供三種收費模式：
+                時薪制（3,000-15,000元/小時）、專案制（依專案規模報價）、成效制（基本費用+成效分潤）。
+                首次諮詢完全免費，確認合作意向後才會產生費用。
               </p>
             </div>
           </div>
@@ -465,37 +479,52 @@ export default function Home() {
             </div>
             <div className="faq-answer">
               <p>
-                所有顧問都需通過嚴格的專業審核，包含資歷驗證、案例審查、客戶推薦等。
-                我們建立完整的評價機制，每次合作後都會收集雙方回饋，確保服務品質。
-                表現優異的顧問將獲得平台認證標章，提升可信度。
+                所有顧問都需通過嚴格的三階段審核：資歷驗證（15年以上經驗）、案例審查（至少5個成功案例）、
+                客戶推薦（3位以上推薦人）。我們也建立評價機制，每次合作後收集回饋，
+                維持 4.5 星以上評價的顧問才能持續服務。
               </p>
             </div>
           </div>
 
           <div className="faq-item">
             <div className="faq-question">
-              <h4>成為平台專家的條件？</h4>
+              <h4>媒合過程需要多久？</h4>
               <span className="faq-arrow">▼</span>
             </div>
             <div className="faq-answer">
               <p>
-                需具備相關領域 5 年以上實務經驗，並提供至少 3 個成功案例。我們重視實戰經驗
-                勝過學歷背景。通過初步審核後，將安排線上面談，了解您的專業能力與服務理念。
-                審核通過後即可開始建立個人品牌頁面，開啟顧問服務。
+                提交需求後，我們會在 24 小時內完成初步評估並推薦 3 位適合的顧問。
+                您可以查看顧問資料、進行線上面談（通常 30 分鐘），整個媒合過程約 3-5 個工作天。
+                確認合作後，顧問可在一週內開始服務。
               </p>
             </div>
           </div>
 
           <div className="faq-item">
             <div className="faq-question">
-              <h4>平台提供哪些支援？</h4>
+              <h4>如果對顧問不滿意怎麼辦？</h4>
               <span className="faq-arrow">▼</span>
             </div>
             <div className="faq-answer">
               <p>
-                企業端：智能媒合系統、顧問背景查核、合約範本、專案管理工具、成效追蹤報表。
-                專家端：個人品牌網站、預約排程系統、發票金流服務、內容行銷支援、
-                專業培訓課程。我們也提供專屬客戶成功經理，協助解決合作過程中的各種問題。
+                我們提供「滿意保證」機制。合作初期（前 2 週）如果您對顧問不滿意，
+                可以免費更換其他顧問。若仍無法達到期待，我們提供全額退款。
+                此外，專案進行中隨時可以向客戶成功經理反映問題，我們會立即介入協調。
+              </p>
+            </div>
+          </div>
+
+          <div className="faq-item">
+            <div className="faq-question">
+              <h4>哪些產業的顧問最多？</h4>
+              <span className="faq-arrow">▼</span>
+            </div>
+            <div className="faq-answer">
+              <p>
+                我們的顧問涵蓋各大產業，其中以製造業（30%）、零售電商（25%）、
+                服務業（20%）、科技業（15%）為主。專業領域包含：經營策略、數位轉型、
+                行銷推廣、人力資源、財務管理、營運優化等。無論您的產業為何，
+                我們都能找到適合的專家。
               </p>
             </div>
           </div>
@@ -508,8 +537,8 @@ export default function Home() {
           <div className="footer-brand">
             <h3>專注 | PROCUS</h3>
             <p>
-              我們致力於建立最專業的顧問媒合平台，透過科技連結企業需求與專家資源，
-              實現真正的商業價值。讓專業落地，讓價值實現。
+              我們致力於為企業找到最適合的專業顧問，透過精準媒合與陪伴式服務，
+              協助企業突破經營瓶頸，實現持續成長。
             </p>
             <div className="social-links">
               <a href="#"><span>f</span></a>
@@ -522,37 +551,39 @@ export default function Home() {
           <div className="footer-section">
             <h4>服務項目</h4>
             <ul className="footer-links">
-              <li><a href="/consultant">企業顧問媒合</a></li>
-              <li><a href="/expert">專家品牌打造</a></li>
-              <li><a href="#">顧問培訓課程</a></li>
+              <li><a href="consultation.html">企業顧問諮詢</a></li>
+              <li><a href="#services">服務流程說明</a></li>
               <li><a href="#cases">成功案例分享</a></li>
+              <li><a href="#faq">常見問題</a></li>
             </ul>
           </div>
 
           <div className="footer-section">
-            <h4>資源中心</h4>
+            <h4>關於專注</h4>
             <ul className="footer-links">
-              <li><a href="#">部落格</a></li>
-              <li><a href="#">白皮書下載</a></li>
-              <li><a href="#">線上研討會</a></li>
-              <li><a href="#">顧問指南</a></li>
+              <li><a href="#about">公司介紹</a></li>
+              <li><a href="#">顧問團隊</a></li>
+              <li><a href="#">服務條款</a></li>
+              <li><a href="#">隱私政策</a></li>
             </ul>
           </div>
 
           <div className="footer-section">
-            <h4>訂閱電子報</h4>
+            <h4>聯絡我們</h4>
             <p style={{color: 'var(--text-gray)', marginBottom: '1rem'}}>
-              獲取最新商業洞察與顧問資訊
+              週一至週五 9:00-18:00<br/>
+              客服專線：0800-123-456<br/>
+              Email：contact@procus.tw
             </p>
             <form className="newsletter-form">
-              <input type="email" placeholder="輸入您的 Email" />
+              <input type="email" placeholder="訂閱電子報" />
               <button type="submit">訂閱</button>
             </form>
           </div>
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; 2024 專注 | Procus. All rights reserved. | 服務條款 | 隱私政策 | Cookie 設定</p>
+          <p>&copy; 2024 專注 | Procus. All rights reserved. | 讓專業落地，讓價值實現</p>
         </div>
       </footer>
     </>
