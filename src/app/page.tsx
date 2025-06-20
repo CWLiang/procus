@@ -201,6 +201,7 @@ export default function Home() {
           <div className="nav-menu">
             <a href="#why-procus">為何選擇專注</a>
             <a href="#experts">專家陣容</a>
+            <a href="/experts">所有專家</a>
             <a href="#cases">成功案例</a>
             <a href="#services">服務流程</a>
             <a href="#about">關於我們</a>
