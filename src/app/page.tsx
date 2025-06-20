@@ -72,6 +72,14 @@ export default function Home() {
       mobileMenuToggle?.classList.toggle('active');
     };
 
+    // Close mobile menu when clicking on links
+    const handleMobileMenuLinkClick = () => {
+      const navMenu = document.querySelector('.nav-menu');
+      const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+      navMenu?.classList.remove('active');
+      mobileMenuToggle?.classList.remove('active');
+    };
+
 
 
     // Expert Scroll functionality
@@ -147,6 +155,12 @@ export default function Home() {
     document.querySelector('.newsletter-form')?.addEventListener('submit', handleNewsletterSubmit);
     document.querySelector('.mobile-menu-toggle')?.addEventListener('click', handleMobileMenuClick);
     
+    // Add mobile menu link click handlers
+    const mobileMenuLinks = document.querySelectorAll('.nav-menu a');
+    mobileMenuLinks.forEach(link => {
+      link.addEventListener('click', handleMobileMenuLinkClick);
+    });
+    
     // Initialize expert scroll buttons visibility
     setTimeout(() => {
       console.log('Initializing expert scroll...');
@@ -178,6 +192,12 @@ export default function Home() {
       document.removeEventListener('click', handleExpertScrollClick);
       document.querySelector('.newsletter-form')?.removeEventListener('submit', handleNewsletterSubmit);
       document.querySelector('.mobile-menu-toggle')?.removeEventListener('click', handleMobileMenuClick);
+      
+      // Remove mobile menu link click handlers
+      const mobileMenuLinks = document.querySelectorAll('.nav-menu a');
+      mobileMenuLinks.forEach(link => {
+        link.removeEventListener('click', handleMobileMenuLinkClick);
+      });
       
       // Remove expert scroll listener
       const scrollWrapper = document.getElementById('expertsScrollWrapper');

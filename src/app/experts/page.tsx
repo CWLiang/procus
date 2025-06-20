@@ -282,6 +282,14 @@ export default function ExpertsPage() {
       mobileMenuToggle?.classList.toggle('active');
     };
 
+    // Close mobile menu when clicking on links
+    const handleMobileMenuLinkClick = () => {
+      const navMenu = document.querySelector('.nav-menu');
+      const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+      navMenu?.classList.remove('active');
+      mobileMenuToggle?.classList.remove('active');
+    };
+
     // Prevent scroll propagation between panels
     const preventScrollPropagation = (e: Event) => {
       e.stopPropagation();
@@ -290,6 +298,12 @@ export default function ExpertsPage() {
     // Add event listeners
     window.addEventListener('scroll', handleScroll);
     document.querySelector('.mobile-menu-toggle')?.addEventListener('click', handleMobileMenuClick);
+    
+    // Add mobile menu link click handlers
+    const mobileMenuLinks = document.querySelectorAll('.nav-menu a');
+    mobileMenuLinks.forEach(link => {
+      link.addEventListener('click', handleMobileMenuLinkClick);
+    });
     
     // Add scroll isolation for both panels
     const leftPanel = document.querySelector('.expert-detail-panel');
@@ -306,6 +320,12 @@ export default function ExpertsPage() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
       document.querySelector('.mobile-menu-toggle')?.removeEventListener('click', handleMobileMenuClick);
+      
+      // Remove mobile menu link click handlers
+      const mobileMenuLinks = document.querySelectorAll('.nav-menu a');
+      mobileMenuLinks.forEach(link => {
+        link.removeEventListener('click', handleMobileMenuLinkClick);
+      });
       
       if (leftPanel) {
         leftPanel.removeEventListener('scroll', preventScrollPropagation);
