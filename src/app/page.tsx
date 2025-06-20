@@ -72,6 +72,57 @@ export default function Home() {
       mobileMenuToggle?.classList.toggle('active');
     };
 
+
+
+    // Expert Scroll functionality
+    const handleExpertScrollClick = (e: Event) => {
+      const target = e.target as HTMLElement;
+      const scrollWrapper = document.getElementById('expertsScrollWrapper');
+      
+      if (!scrollWrapper) {
+        console.log('Scroll wrapper not found');
+        return;
+      }
+      
+      const cardWidth = 350 + 32; // card width (350px) + gap (2rem = 32px)
+      
+      if (target.id === 'scrollLeft') {
+        console.log('Scrolling left by', -cardWidth);
+        scrollWrapper.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+      } else if (target.id === 'scrollRight') {
+        console.log('Scrolling right by', cardWidth);
+        scrollWrapper.scrollBy({ left: cardWidth, behavior: 'smooth' });
+      }
+    };
+    
+    const updateScrollButtons = () => {
+      const scrollWrapper = document.getElementById('expertsScrollWrapper');
+      const scrollLeft = document.getElementById('scrollLeft');
+      const scrollRight = document.getElementById('scrollRight');
+      
+      if (!scrollWrapper || !scrollLeft || !scrollRight) return;
+      
+      const { scrollLeft: currentScroll, scrollWidth, clientWidth } = scrollWrapper;
+      
+      // Hide left button if at start
+      if (currentScroll <= 0) {
+        scrollLeft.classList.add('hidden');
+      } else {
+        scrollLeft.classList.remove('hidden');
+      }
+      
+      // Hide right button if at end
+      if (currentScroll >= scrollWidth - clientWidth - 10) {
+        scrollRight.classList.add('hidden');
+      } else {
+        scrollRight.classList.remove('hidden');
+      }
+    };
+    
+    const handleExpertScroll = () => {
+      updateScrollButtons();
+    };
+
     // Intersection Observer for animations
     const observerOptions = {
       threshold: 0.1,
@@ -92,11 +143,26 @@ export default function Home() {
     window.addEventListener('scroll', handleScroll);
     document.addEventListener('click', handleFaqClick);
     document.addEventListener('click', handleAnchorClick);
+    document.addEventListener('click', handleExpertScrollClick);
     document.querySelector('.newsletter-form')?.addEventListener('submit', handleNewsletterSubmit);
     document.querySelector('.mobile-menu-toggle')?.addEventListener('click', handleMobileMenuClick);
+    
+    // Initialize expert scroll buttons visibility
+    setTimeout(() => {
+      console.log('Initializing expert scroll...');
+      updateScrollButtons();
+      // Add scroll listener to expert wrapper
+      const scrollWrapper = document.getElementById('expertsScrollWrapper');
+      if (scrollWrapper) {
+        console.log('Found scroll wrapper, adding scroll listener');
+        scrollWrapper.addEventListener('scroll', handleExpertScroll);
+      } else {
+        console.log('Scroll wrapper not found during initialization');
+      }
+    }, 100); // Wait for DOM to be ready
 
     // Observe elements for animations
-    document.querySelectorAll('.case-card, .pain-point, .feature-card, .value-item').forEach(el => {
+    document.querySelectorAll('.case-card, .pain-point, .feature-card, .value-item, .expert-card').forEach(el => {
       const element = el as HTMLElement;
       element.style.opacity = '0';
       element.style.transform = 'translateY(20px)';
@@ -109,8 +175,16 @@ export default function Home() {
       window.removeEventListener('scroll', handleScroll);
       document.removeEventListener('click', handleFaqClick);
       document.removeEventListener('click', handleAnchorClick);
+      document.removeEventListener('click', handleExpertScrollClick);
       document.querySelector('.newsletter-form')?.removeEventListener('submit', handleNewsletterSubmit);
       document.querySelector('.mobile-menu-toggle')?.removeEventListener('click', handleMobileMenuClick);
+      
+      // Remove expert scroll listener
+      const scrollWrapper = document.getElementById('expertsScrollWrapper');
+      if (scrollWrapper) {
+        scrollWrapper.removeEventListener('scroll', handleExpertScroll);
+      }
+      
       observer.disconnect();
     };
   }, []);
@@ -126,6 +200,7 @@ export default function Home() {
           </a>
           <div className="nav-menu">
             <a href="#why-procus">為何選擇專注</a>
+            <a href="#experts">專家陣容</a>
             <a href="#cases">成功案例</a>
             <a href="#services">服務流程</a>
             <a href="#about">關於我們</a>
@@ -234,6 +309,156 @@ export default function Home() {
             
             <a href="consultation.html" className="cta-primary" style={{marginTop: '2rem'}}>
               立即解決經營難題
+              <span>→</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Expert Carousel Section */}
+      <section id="experts" className="experts-section">
+        <div className="experts-container">
+          <div className="section-header">
+            <div className="section-tag">OUR EXPERTS</div>
+            <h2 className="section-title">業界頂尖專家陣容</h2>
+            <p className="section-desc">
+              匯聚各領域資深專家，擁有豐富實戰經驗，為您的企業量身打造解決方案
+            </p>
+          </div>
+          
+          <div className="experts-scroll-container">
+            <div className="scroll-indicator scroll-left" id="scrollLeft">‹</div>
+            <div className="scroll-indicator scroll-right" id="scrollRight">›</div>
+            
+            <div className="experts-scroll-wrapper" id="expertsScrollWrapper">
+              <div className="experts-grid">
+                {/* Expert 1 */}
+                <div className="expert-card">
+                  <div className="expert-avatar">
+                    <div className="avatar-image expert-1"></div>
+                  </div>
+                  <div className="expert-info">
+                    <h4 className="expert-name">林建志</h4>
+                    <div className="expert-title">數位轉型策略總監</div>
+                    <div className="expert-expertise">製造業 • 智慧工廠 • IoT</div>
+                    <p className="expert-bio">
+                      前台積電資深經理，20年製造業經驗，專精智慧製造與數位轉型，已協助200+傳統工廠成功升級。
+                    </p>
+                    <div className="expert-highlights">
+                      <span className="highlight-badge">20年經驗</span>
+                      <span className="highlight-badge">200+案例</span>
+                      <span className="highlight-badge">台積電背景</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Expert 2 */}
+                <div className="expert-card">
+                  <div className="expert-avatar">
+                    <div className="avatar-image expert-2"></div>
+                  </div>
+                  <div className="expert-info">
+                    <h4 className="expert-name">陳雅婷</h4>
+                    <div className="expert-title">品牌行銷策略專家</div>
+                    <div className="expert-expertise">電商 • 品牌策略 • 社群行銷</div>
+                    <p className="expert-bio">
+                      前momo購物網行銷總監，15年電商經驗，成功打造多個破億營收品牌，擅長全通路整合行銷。
+                    </p>
+                    <div className="expert-highlights">
+                      <span className="highlight-badge">15年經驗</span>
+                      <span className="highlight-badge">破億品牌</span>
+                      <span className="highlight-badge">momo背景</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Expert 3 */}
+                <div className="expert-card">
+                  <div className="expert-avatar">
+                    <div className="avatar-image expert-3"></div>
+                  </div>
+                  <div className="expert-info">
+                    <h4 className="expert-name">張志明</h4>
+                    <div className="expert-title">連鎖經營顧問</div>
+                    <div className="expert-expertise">餐飲 • 連鎖加盟 • 營運管理</div>
+                    <p className="expert-bio">
+                      王品集團前營運長，18年連鎖餐飲經驗，協助50+品牌成功展店，建立標準化營運體系。
+                    </p>
+                    <div className="expert-highlights">
+                      <span className="highlight-badge">18年經驗</span>
+                      <span className="highlight-badge">50+品牌</span>
+                      <span className="highlight-badge">王品背景</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Expert 4 */}
+                <div className="expert-card">
+                  <div className="expert-avatar">
+                    <div className="avatar-image expert-4"></div>
+                  </div>
+                  <div className="expert-info">
+                    <h4 className="expert-name">劉美玲</h4>
+                    <div className="expert-title">財務管理專家</div>
+                    <div className="expert-expertise">財務規劃 • 投資併購 • 風險控制</div>
+                    <p className="expert-bio">
+                      前玉山銀行投資部主管，22年金融財務經驗，協助企業優化財務結構，降低營運風險。
+                    </p>
+                    <div className="expert-highlights">
+                      <span className="highlight-badge">22年經驗</span>
+                      <span className="highlight-badge">百億操盤</span>
+                      <span className="highlight-badge">玉山背景</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Expert 5 */}
+                <div className="expert-card">
+                  <div className="expert-avatar">
+                    <div className="avatar-image expert-5"></div>
+                  </div>
+                  <div className="expert-info">
+                    <h4 className="expert-name">黃志華</h4>
+                    <div className="expert-title">人資發展顧問</div>
+                    <div className="expert-expertise">組織發展 • 人才培育 • 績效管理</div>
+                    <p className="expert-bio">
+                      前104人力銀行資深顧問，16年人資經驗，專精組織變革與人才發展，協助企業建立高效團隊。
+                    </p>
+                    <div className="expert-highlights">
+                      <span className="highlight-badge">16年經驗</span>
+                      <span className="highlight-badge">組織專精</span>
+                      <span className="highlight-badge">104背景</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Expert 6 */}
+                <div className="expert-card">
+                  <div className="expert-avatar">
+                    <div className="avatar-image expert-6"></div>
+                  </div>
+                  <div className="expert-info">
+                    <h4 className="expert-name">李淑芬</h4>
+                    <div className="expert-title">法務合規顧問</div>
+                    <div className="expert-expertise">企業法務 • 合規管理 • 智財保護</div>
+                    <p className="expert-bio">
+                      前聯發科法務長，25年企業法務經驗，專精跨國法規與智慧財產權，為企業建立完善法務體系。
+                    </p>
+                    <div className="expert-highlights">
+                      <span className="highlight-badge">25年經驗</span>
+                      <span className="highlight-badge">跨國法規</span>
+                      <span className="highlight-badge">聯發科背景</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="experts-footer">
+            <p>還有更多各領域專家等著與您合作</p>
+            <a href="consultation.html" className="cta-primary">
+              立即媒合專家
               <span>→</span>
             </a>
           </div>
