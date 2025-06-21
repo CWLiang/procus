@@ -301,7 +301,7 @@ export default function Home() {
             <a href="#cases">成功案例</a>
             <a href="#services">服務流程</a>
             <a href="#about">關於我們</a>
-            <Link href="/experts" className="contact-btn">立即諮詢</Link>
+            <Link href="/consultation" className="contact-btn">立即諮詢</Link>
           </div>
           <div className="mobile-menu-toggle">
             <span></span>
@@ -464,8 +464,8 @@ export default function Home() {
           
           <div className="experts-footer">
             <p>還有更多各領域專家等著與您合作</p>
-            <Link href="/consultation" className="cta-primary">
-              立即媒合專家
+            <Link href="/experts" className="cta-primary">
+              查看所有專家
               <span>→</span>
             </Link>
           </div>

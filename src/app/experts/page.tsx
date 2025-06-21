@@ -142,7 +142,7 @@ export default function ExpertsPage() {
             <Link href="/#cases">成功案例</Link>
             <Link href="/#services">服務流程</Link>
             <Link href="/#about">關於我們</Link>
-            <Link href="/experts" className="contact-btn">立即諮詢</Link>
+            <Link href="/consultation" className="contact-btn">立即諮詢</Link>
           </div>
           <div className="mobile-menu-toggle">
             <span></span>
