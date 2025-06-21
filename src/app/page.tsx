@@ -1,7 +1,60 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+
+// ExpertAvatar 組件 - 處理照片不存在的情況
+interface ExpertAvatarProps {
+  imagePath: string;
+  name: string;
+  avatarClass: string;
+  width: number;
+  height: number;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+function ExpertAvatar({ imagePath, name, avatarClass, width, height, className, style }: ExpertAvatarProps) {
+  const [imageError, setImageError] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  // 檢查圖片是否存在
+  useEffect(() => {
+    const img = new window.Image();
+    img.onload = () => setImageLoaded(true);
+    img.onerror = () => setImageError(true);
+    img.src = imagePath;
+  }, [imagePath]);
+
+  // 如果圖片載入失敗或還沒載入，使用CSS背景
+  if (imageError || !imageLoaded) {
+    return (
+      <div 
+        className={`${avatarClass}`}
+        style={{
+          width: `${width}px`,
+          height: `${height}px`,
+          borderRadius: '10px',
+          position: 'relative',
+          ...style
+        }}
+      />
+    );
+  }
+
+  // 載入真實圖片
+  return (
+    <Image
+      src={imagePath}
+      alt={name}
+      width={width}
+      height={height}
+      className={className}
+      style={style}
+    />
+  );
+}
 
 export default function Home() {
   useEffect(() => {
@@ -372,10 +425,20 @@ export default function Home() {
                 {/* Expert 1 */}
                 <Link href="/experts?expert=1" className="expert-card">
                   <div className="expert-avatar">
-                    <div className="avatar-image expert-1"></div>
+                    <ExpertAvatar
+                      imagePath="/images/experts/expert-1.jpg"
+                      name="林建志"
+                      avatarClass="expert-1"
+                      width={140}
+                      height={180}
+                      className="avatar-image"
+                      style={{
+                        objectFit: 'cover',
+                        borderRadius: '10px'
+                      }}
+                    />
                   </div>
                   <div className="expert-info">
-                    <h4 className="expert-name">林建志</h4>
                     <div className="expert-title">數位轉型策略總監</div>
                     <div className="expert-expertise">製造業 • 智慧工廠 • IoT</div>
                     <p className="expert-bio">
@@ -392,10 +455,20 @@ export default function Home() {
                 {/* Expert 2 */}
                 <Link href="/experts?expert=2" className="expert-card">
                   <div className="expert-avatar">
-                    <div className="avatar-image expert-2"></div>
+                    <ExpertAvatar
+                      imagePath="/images/experts/expert-2.jpg"
+                      name="陳雅婷"
+                      avatarClass="expert-2"
+                      width={140}
+                      height={180}
+                      className="avatar-image"
+                      style={{
+                        objectFit: 'cover',
+                        borderRadius: '10px'
+                      }}
+                    />
                   </div>
                   <div className="expert-info">
-                    <h4 className="expert-name">陳雅婷</h4>
                     <div className="expert-title">品牌行銷策略專家</div>
                     <div className="expert-expertise">電商 • 品牌策略 • 社群行銷</div>
                     <p className="expert-bio">
@@ -412,10 +485,20 @@ export default function Home() {
                 {/* Expert 3 */}
                 <Link href="/experts?expert=3" className="expert-card">
                   <div className="expert-avatar">
-                    <div className="avatar-image expert-3"></div>
+                    <ExpertAvatar
+                      imagePath="/images/experts/expert-3.jpg"
+                      name="張志明"
+                      avatarClass="expert-3"
+                      width={140}
+                      height={180}
+                      className="avatar-image"
+                      style={{
+                        objectFit: 'cover',
+                        borderRadius: '10px'
+                      }}
+                    />
                   </div>
                   <div className="expert-info">
-                    <h4 className="expert-name">張志明</h4>
                     <div className="expert-title">連鎖經營顧問</div>
                     <div className="expert-expertise">餐飲 • 連鎖加盟 • 營運管理</div>
                     <p className="expert-bio">
@@ -432,10 +515,20 @@ export default function Home() {
                 {/* Expert 4 */}
                 <Link href="/experts?expert=4" className="expert-card">
                   <div className="expert-avatar">
-                    <div className="avatar-image expert-4"></div>
+                    <ExpertAvatar
+                      imagePath="/images/experts/expert-4.jpg"
+                      name="劉美玲"
+                      avatarClass="expert-4"
+                      width={140}
+                      height={180}
+                      className="avatar-image"
+                      style={{
+                        objectFit: 'cover',
+                        borderRadius: '10px'
+                      }}
+                    />
                   </div>
                   <div className="expert-info">
-                    <h4 className="expert-name">劉美玲</h4>
                     <div className="expert-title">財務管理專家</div>
                     <div className="expert-expertise">財務規劃 • 投資併購 • 風險控制</div>
                     <p className="expert-bio">
@@ -452,10 +545,20 @@ export default function Home() {
                 {/* Expert 5 */}
                 <Link href="/experts?expert=5" className="expert-card">
                   <div className="expert-avatar">
-                    <div className="avatar-image expert-5"></div>
+                    <ExpertAvatar
+                      imagePath="/images/experts/expert-5.jpg"
+                      name="黃志華"
+                      avatarClass="expert-5"
+                      width={140}
+                      height={180}
+                      className="avatar-image"
+                      style={{
+                        objectFit: 'cover',
+                        borderRadius: '10px'
+                      }}
+                    />
                   </div>
                   <div className="expert-info">
-                    <h4 className="expert-name">黃志華</h4>
                     <div className="expert-title">人資發展顧問</div>
                     <div className="expert-expertise">組織發展 • 人才培育 • 績效管理</div>
                     <p className="expert-bio">
@@ -472,10 +575,20 @@ export default function Home() {
                 {/* Expert 6 */}
                 <Link href="/experts?expert=6" className="expert-card">
                   <div className="expert-avatar">
-                    <div className="avatar-image expert-6"></div>
+                    <ExpertAvatar
+                      imagePath="/images/experts/expert-6.jpg"
+                      name="李淑芬"
+                      avatarClass="expert-6"
+                      width={140}
+                      height={180}
+                      className="avatar-image"
+                      style={{
+                        objectFit: 'cover',
+                        borderRadius: '10px'
+                      }}
+                    />
                   </div>
                   <div className="expert-info">
-                    <h4 className="expert-name">李淑芬</h4>
                     <div className="expert-title">法務合規顧問</div>
                     <div className="expert-expertise">企業法務 • 合規管理 • 智財保護</div>
                     <p className="expert-bio">

@@ -2,6 +2,59 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
+
+// ExpertAvatar 組件 - 處理照片不存在的情況
+interface ExpertAvatarProps {
+  imagePath: string;
+  name: string;
+  avatarClass: string;
+  width: number;
+  height: number;
+  className?: string;
+  style?: React.CSSProperties;
+}
+
+function ExpertAvatar({ imagePath, name, avatarClass, width, height, className, style }: ExpertAvatarProps) {
+  const [imageError, setImageError] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+
+  // 檢查圖片是否存在
+  useEffect(() => {
+    const img = new window.Image();
+    img.onload = () => setImageLoaded(true);
+    img.onerror = () => setImageError(true);
+    img.src = imagePath;
+  }, [imagePath]);
+
+  // 如果圖片載入失敗或還沒載入，使用CSS背景
+  if (imageError || !imageLoaded) {
+    return (
+      <div 
+        className={`${avatarClass}`}
+        style={{
+          width: `${width}px`,
+          height: `${height}px`,
+          borderRadius: style?.borderRadius || '16px',
+          position: 'relative',
+          ...style
+        }}
+      />
+    );
+  }
+
+  // 載入真實圖片
+  return (
+    <Image
+      src={imagePath}
+      alt={name}
+      width={width}
+      height={height}
+      className={className}
+      style={style}
+    />
+  );
+}
 
 // 專家資料
 const expertsData = [
@@ -15,6 +68,7 @@ const expertsData = [
     cases: '200+案例',
     background: '台積電背景',
     avatarClass: 'expert-1',
+    imagePath: '/images/experts/expert-1.jpg',
     fullBio: '林建志先生擁有超過20年的製造業經驗，曾在台積電擔任資深經理職位，負責多項重大數位轉型專案。他深度了解傳統製造業的痛點，並具備豐富的智慧製造導入經驗。',
     specialties: [
       '智慧製造系統導入',
@@ -57,6 +111,7 @@ const expertsData = [
     cases: '破億品牌',
     background: 'momo背景',
     avatarClass: 'expert-2',
+    imagePath: '/images/experts/expert-2.jpg',
     fullBio: '陳雅婷女士在電商領域深耕15年，曾任momo購物網行銷總監，成功操盤多個年營收破億的品牌專案。她精通數位行銷策略，特別在全通路整合與品牌建立方面有卓越表現。',
     specialties: [
       '電商平台營運策略',
@@ -99,6 +154,7 @@ const expertsData = [
     cases: '50+品牌',
     background: '王品背景',
     avatarClass: 'expert-3',
+    imagePath: '/images/experts/expert-3.jpg',
     fullBio: '張志明先生曾任王品集團營運長，擁有18年連鎖餐飲管理經驗。他深諳連鎖經營的核心要素，從品牌定位、標準化作業到加盟體系建立，協助超過50個品牌成功展店擴張。',
     specialties: [
       '連鎖加盟體系設計',
@@ -141,6 +197,7 @@ const expertsData = [
     cases: '百億操盤',
     background: '玉山背景',
     avatarClass: 'expert-4',
+    imagePath: '/images/experts/expert-4.jpg',
     fullBio: '劉美玲女士擁有22年金融業經驗，曾任玉山銀行投資部主管，管理資產規模超過百億。她在企業財務規劃、投資併購及風險管理方面具有豐富實戰經驗，協助眾多企業優化財務結構。',
     specialties: [
       '企業財務健檢與優化',
@@ -183,6 +240,7 @@ const expertsData = [
     cases: '組織專精',
     background: '104背景',
     avatarClass: 'expert-5',
+    imagePath: '/images/experts/expert-5.jpg',
     fullBio: '黃志華先生在人力資源領域有16年豐富經驗，曾任104人力銀行資深顧問。他專精於組織發展與變革管理，協助企業建立完善的人才培育體系，提升組織效能與員工績效。',
     specialties: [
       '組織架構設計與優化',
@@ -225,6 +283,7 @@ const expertsData = [
     cases: '跨國法規',
     background: '聯發科背景',
     avatarClass: 'expert-6',
+    imagePath: '/images/experts/expert-6.jpg',
     fullBio: '李淑芬女士擁有25年企業法務經驗，曾任聯發科技法務長，負責集團全球法務事務。她在跨國法規遵循、智慧財產權保護及企業合規管理方面具有深厚專業，協助企業建立完善的法務風險控制體系。',
     specialties: [
       '企業合規制度建立',
@@ -414,7 +473,19 @@ export default function ExpertsPage() {
             {/* Expert Header */}
             <div className="expert-header">
               <div className="expert-main-avatar">
-                <div className={`avatar-image ${selectedExpert.avatarClass}`}></div>
+                <ExpertAvatar 
+                  imagePath={selectedExpert.imagePath}
+                  name={selectedExpert.name}
+                  avatarClass={selectedExpert.avatarClass}
+                  width={150}
+                  height={190}
+                  className="avatar-image"
+                  style={{
+                    objectFit: 'cover',
+                    borderRadius: '16px',
+                    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.15)'
+                  }}
+                />
               </div>
               <div className="expert-main-info">
                 <h1 className="expert-main-name">{selectedExpert.name}</h1>
@@ -521,10 +592,20 @@ export default function ExpertsPage() {
                   onClick={() => setSelectedExpert(expert)}
                 >
                   <div className="expert-grid-avatar">
-                    <div className={`avatar-image ${expert.avatarClass}`}></div>
+                    <ExpertAvatar
+                      imagePath={expert.imagePath}
+                      name={expert.name}
+                      avatarClass={expert.avatarClass}
+                      width={100}
+                      height={130}
+                      className="avatar-image"
+                      style={{
+                        objectFit: 'cover',
+                        borderRadius: '10px'
+                      }}
+                    />
                   </div>
                   <div className="expert-grid-info">
-                    <h4 className="expert-grid-name">{expert.name}</h4>
                     <div className="expert-grid-title">{expert.title}</div>
                     <div className="expert-grid-expertise">
                       {expert.expertise.join(' • ')}
