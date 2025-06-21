@@ -433,6 +433,49 @@ nav.scrolled {
   z-index: 1;
 }
 
+.experts-section .section-header {
+  text-align: center;
+  max-width: 800px;
+  margin: 0 auto 5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0;
+}
+
+.experts-section .section-header .section-tag {
+  color: var(--accent-teal);
+  font-size: 0.875rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  text-align: center;
+  width: 100%;
+}
+
+.experts-section .section-header .section-title {
+  font-size: 2.5rem;
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+  letter-spacing: -1px;
+  color: var(--text-white);
+  text-align: center !important;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.experts-section .section-header .section-desc {
+  color: var(--text-gray);
+  font-size: 1.1rem;
+  line-height: 1.8;
+  text-align: center;
+  width: 100%;
+}
+
 .experts-carousel {
   margin: 4rem 0;
   position: relative;
@@ -812,31 +855,49 @@ nav.scrolled {
   position: relative;
 }
 
+
+
 .section-header {
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto 5rem;
+  text-align: center !important;
+  max-width: 800px !important;
+  margin: 0 auto 5rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  padding: 0 !important;
 }
 
 .section-tag {
-  color: var(--accent-teal);
-  font-size: 0.875rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 1rem;
+  color: var(--accent-teal) !important;
+  font-size: 0.875rem !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase !important;
+  margin-bottom: 1rem !important;
+  text-align: center !important;
+  width: 100% !important;
 }
 
 .section-title {
-  font-size: 2.5rem;
-  font-weight: 300;
-  margin-bottom: 1.5rem;
-  letter-spacing: -1px;
+  font-size: 2.5rem !important;
+  font-weight: 300 !important;
+  margin-bottom: 1.5rem !important;
+  letter-spacing: -1px !important;
+  color: var(--text-white) !important;
+  text-align: center !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  display: block !important;
 }
 
 .section-desc {
-  color: var(--text-gray);
-  font-size: 1.1rem;
-  line-height: 1.8;
+  color: var(--text-gray) !important;
+  font-size: 1.1rem !important;
+  line-height: 1.8 !important;
+  text-align: center !important;
+  width: 100% !important;
 }
 
 .cases-grid {
@@ -931,6 +992,8 @@ nav.scrolled {
   background: var(--bg-section);
   position: relative;
 }
+
+
 
 /* Process Section */
 .process-container {
