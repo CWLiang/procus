@@ -32,12 +32,13 @@ function ExpertAvatar({ imagePath, name, avatarClass, width, height, className, 
   if (imageError || !imageLoaded) {
     return (
       <div 
-        className={`${avatarClass}`}
+        className={`${avatarClass} ${className || ''}`}
         style={{
           width: `${width}px`,
           height: `${height}px`,
           borderRadius: '10px',
           position: 'relative',
+          overflow: 'hidden',
           ...style
         }}
       />
