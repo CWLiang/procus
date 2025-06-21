@@ -2180,13 +2180,18 @@ footer {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     padding: 20px 0;
+    height: 100%; /* 使用完整高度 */
     min-height: 500px;
   }
 
   .expert-grid-card {
     padding: 20px 16px;
+    height: 100%; /* 填滿網格高度 */
     min-height: 450px;
-    margin: 8px 0;
+    margin: 0; /* 移除margin避免高度計算問題 */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* 內容分佈均勻 */
   }
 
   .expert-grid-avatar {
@@ -2216,6 +2221,23 @@ footer {
   .expert-grid-bio {
     font-size: 0.8rem;
     -webkit-line-clamp: 3;
+  }
+
+  .experts-grid-content {
+    padding: 40px 30px;
+    height: 100%; /* 使用完整高度 */
+    min-height: 100%; /* 確保填滿容器 */
+    display: flex;
+    flex-direction: column;
+  }
+
+  .grid-header {
+    margin-bottom: 30px;
+    flex-shrink: 0;
+  }
+
+  .experts-grid-container {
+    flex: 1; /* 占用剩餘空間 */
   }
 }
 
@@ -2304,9 +2326,10 @@ footer {
   .experts-grid-content {
     padding: 8px 15px;
     height: 100%;
-    min-height: 200px;
+    min-height: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: flex-start;
   }
 
   .grid-header {
@@ -2334,10 +2357,10 @@ footer {
     overflow-y: hidden;
     padding: 16px 8px 12px 8px;
     flex: 1;
-    align-items: flex-start;
+    align-items: stretch; /* 讓卡片填滿容器高度 */
     scroll-snap-type: x mandatory;
-    max-height: calc(100% - 50px); /* 調整最大高度 */
-    min-height: 180px; /* 增加最小高度 */
+    height: calc(100% - 40px); /* 調整高度計算 */
+    min-height: 160px; /* 調整最小高度 */
   }
 
   .experts-grid-container::-webkit-scrollbar {
@@ -2356,20 +2379,19 @@ footer {
 
   .expert-grid-card {
     padding: 16px 12px;
-    min-height: 140px;
-    max-height: none;
+    min-height: 100%; /* 填滿容器高度 */
     min-width: 220px;
     max-width: 220px;
     flex-shrink: 0;
-    height: auto;
+    height: 100%; /* 使用完整高度 */
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: center; /* 垂直置中對齊 */
     text-align: left;
     scroll-snap-align: start;
     overflow: visible;
     gap: 12px;
-    margin: 4px 0;
+    margin: 0; /* 移除margin避免高度計算問題 */
   }
 
   .expert-grid-avatar {
