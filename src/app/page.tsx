@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { getAllExpertsBasicInfo } from '@/data/experts';
 import Image from 'next/image';
 
 // ExpertAvatar 組件 - 處理照片不存在的情況
@@ -50,8 +51,13 @@ function ExpertAvatar({ imagePath, name, avatarClass, width, height, className, 
       alt={name}
       width={width}
       height={height}
-      className={className}
-      style={style}
+      className={`${className} expert-avatar-img`}
+      style={{
+        objectFit: 'cover',
+        objectPosition: 'center',
+        borderRadius: '10px',
+        ...style
+      }}
     />
   );
 }
@@ -317,7 +323,7 @@ export default function Home() {
           </p>
           
           <div className="hero-cta">
-            <Link href="/experts" className="cta-primary">
+            <Link href="/consultation" className="cta-primary">
               預約免費諮詢
               <span>→</span>
             </Link>
@@ -397,7 +403,7 @@ export default function Home() {
               </div>
             </div>
             
-            <Link href="/experts" className="cta-primary" style={{marginTop: '2rem'}}>
+            <Link href="/consultation" className="cta-primary" style={{marginTop: '2rem'}}>
               立即解決經營難題
               <span>→</span>
             </Link>
@@ -422,192 +428,42 @@ export default function Home() {
             
             <div className="experts-scroll-wrapper" id="expertsScrollWrapper">
               <div className="experts-grid">
-                {/* Expert 1 */}
-                <Link href="/experts?expert=1" className="expert-card">
-                  <div className="expert-avatar">
-                    <ExpertAvatar
-                      imagePath="/images/experts/expert-1.jpg"
-                      name="林建志"
-                      avatarClass="expert-1"
-                      width={140}
-                      height={180}
-                      className="avatar-image"
-                      style={{
-                        objectFit: 'cover',
-                        borderRadius: '10px'
-                      }}
-                    />
-                  </div>
-                  <div className="expert-info">
-                    <div className="expert-title">數位轉型策略總監</div>
-                    <div className="expert-expertise">製造業 • 智慧工廠 • IoT</div>
-                    <p className="expert-bio">
-                      前台積電資深經理，20年製造業經驗，專精智慧製造與數位轉型，已協助200+傳統工廠成功升級。
-                    </p>
-                    <div className="expert-highlights">
-                      <span className="highlight-badge">20年經驗</span>
-                      <span className="highlight-badge">200+案例</span>
-                      <span className="highlight-badge">台積電背景</span>
+                {getAllExpertsBasicInfo().map((expert, index) => (
+                  <Link key={expert.id} href={`/experts?expert=${expert.id}`} className="expert-card">
+                    <div className="expert-avatar">
+                      <ExpertAvatar
+                        imagePath={expert.image}
+                        name={expert.name}
+                        avatarClass={`expert-${index + 1}`}
+                        width={140}
+                        height={180}
+                        className="avatar-image"
+                        style={{
+                          objectFit: 'cover',
+                          borderRadius: '10px'
+                        }}
+                      />
                     </div>
-                  </div>
-                </Link>
-
-                {/* Expert 2 */}
-                <Link href="/experts?expert=2" className="expert-card">
-                  <div className="expert-avatar">
-                    <ExpertAvatar
-                      imagePath="/images/experts/expert-2.jpg"
-                      name="陳雅婷"
-                      avatarClass="expert-2"
-                      width={140}
-                      height={180}
-                      className="avatar-image"
-                      style={{
-                        objectFit: 'cover',
-                        borderRadius: '10px'
-                      }}
-                    />
-                  </div>
-                  <div className="expert-info">
-                    <div className="expert-title">品牌行銷策略專家</div>
-                    <div className="expert-expertise">電商 • 品牌策略 • 社群行銷</div>
-                    <p className="expert-bio">
-                      前momo購物網行銷總監，15年電商經驗，成功打造多個破億營收品牌，擅長全通路整合行銷。
-                    </p>
-                    <div className="expert-highlights">
-                      <span className="highlight-badge">15年經驗</span>
-                      <span className="highlight-badge">破億品牌</span>
-                      <span className="highlight-badge">momo背景</span>
+                    <div className="expert-info">
+                      <div className="expert-name">{expert.name}</div>
+                      <div className="expert-title">{expert.title}</div>
+                      <div className="expert-expertise">{expert.expertise}</div>
+                      <p className="expert-bio">{expert.bio}</p>
+                      <div className="expert-highlights">
+                        {expert.highlights.map((highlight, idx) => (
+                          <span key={idx} className="highlight-badge">{highlight}</span>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                </Link>
-
-                {/* Expert 3 */}
-                <Link href="/experts?expert=3" className="expert-card">
-                  <div className="expert-avatar">
-                    <ExpertAvatar
-                      imagePath="/images/experts/expert-3.jpg"
-                      name="張志明"
-                      avatarClass="expert-3"
-                      width={140}
-                      height={180}
-                      className="avatar-image"
-                      style={{
-                        objectFit: 'cover',
-                        borderRadius: '10px'
-                      }}
-                    />
-                  </div>
-                  <div className="expert-info">
-                    <div className="expert-title">連鎖經營顧問</div>
-                    <div className="expert-expertise">餐飲 • 連鎖加盟 • 營運管理</div>
-                    <p className="expert-bio">
-                      王品集團前營運長，18年連鎖餐飲經驗，協助50+品牌成功展店，建立標準化營運體系。
-                    </p>
-                    <div className="expert-highlights">
-                      <span className="highlight-badge">18年經驗</span>
-                      <span className="highlight-badge">50+品牌</span>
-                      <span className="highlight-badge">王品背景</span>
-                    </div>
-                  </div>
-                </Link>
-
-                {/* Expert 4 */}
-                <Link href="/experts?expert=4" className="expert-card">
-                  <div className="expert-avatar">
-                    <ExpertAvatar
-                      imagePath="/images/experts/expert-4.jpg"
-                      name="劉美玲"
-                      avatarClass="expert-4"
-                      width={140}
-                      height={180}
-                      className="avatar-image"
-                      style={{
-                        objectFit: 'cover',
-                        borderRadius: '10px'
-                      }}
-                    />
-                  </div>
-                  <div className="expert-info">
-                    <div className="expert-title">財務管理專家</div>
-                    <div className="expert-expertise">財務規劃 • 投資併購 • 風險控制</div>
-                    <p className="expert-bio">
-                      前玉山銀行投資部主管，22年金融財務經驗，協助企業優化財務結構，降低營運風險。
-                    </p>
-                    <div className="expert-highlights">
-                      <span className="highlight-badge">22年經驗</span>
-                      <span className="highlight-badge">百億操盤</span>
-                      <span className="highlight-badge">玉山背景</span>
-                    </div>
-                  </div>
-                </Link>
-
-                {/* Expert 5 */}
-                <Link href="/experts?expert=5" className="expert-card">
-                  <div className="expert-avatar">
-                    <ExpertAvatar
-                      imagePath="/images/experts/expert-5.jpg"
-                      name="黃志華"
-                      avatarClass="expert-5"
-                      width={140}
-                      height={180}
-                      className="avatar-image"
-                      style={{
-                        objectFit: 'cover',
-                        borderRadius: '10px'
-                      }}
-                    />
-                  </div>
-                  <div className="expert-info">
-                    <div className="expert-title">人資發展顧問</div>
-                    <div className="expert-expertise">組織發展 • 人才培育 • 績效管理</div>
-                    <p className="expert-bio">
-                      前104人力銀行資深顧問，16年人資經驗，專精組織變革與人才發展，協助企業建立高效團隊。
-                    </p>
-                    <div className="expert-highlights">
-                      <span className="highlight-badge">16年經驗</span>
-                      <span className="highlight-badge">組織專精</span>
-                      <span className="highlight-badge">104背景</span>
-                    </div>
-                  </div>
-                </Link>
-
-                {/* Expert 6 */}
-                <Link href="/experts?expert=6" className="expert-card">
-                  <div className="expert-avatar">
-                    <ExpertAvatar
-                      imagePath="/images/experts/expert-6.jpg"
-                      name="李淑芬"
-                      avatarClass="expert-6"
-                      width={140}
-                      height={180}
-                      className="avatar-image"
-                      style={{
-                        objectFit: 'cover',
-                        borderRadius: '10px'
-                      }}
-                    />
-                  </div>
-                  <div className="expert-info">
-                    <div className="expert-title">法務合規顧問</div>
-                    <div className="expert-expertise">企業法務 • 合規管理 • 智財保護</div>
-                    <p className="expert-bio">
-                      前聯發科法務長，25年企業法務經驗，專精跨國法規與智慧財產權，為企業建立完善法務體系。
-                    </p>
-                    <div className="expert-highlights">
-                      <span className="highlight-badge">25年經驗</span>
-                      <span className="highlight-badge">跨國法規</span>
-                      <span className="highlight-badge">聯發科背景</span>
-                    </div>
-                  </div>
-                </Link>
+                  </Link>
+                ))}
               </div>
             </div>
           </div>
           
           <div className="experts-footer">
             <p>還有更多各領域專家等著與您合作</p>
-            <Link href="/experts" className="cta-primary">
+            <Link href="/consultation" className="cta-primary">
               立即媒合專家
               <span>→</span>
             </Link>
@@ -774,7 +630,7 @@ export default function Home() {
             </div>
           </div>
           
-          <Link href="/experts" className="cta-primary">
+          <Link href="/consultation" className="cta-primary">
             預約免費諮詢
             <span>→</span>
           </Link>
