@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import Link from 'next/link';
 
 export default function Home() {
   useEffect(() => {
@@ -39,9 +40,10 @@ export default function Home() {
     // Smooth scrolling for anchor links
     const handleAnchorClick = (e: Event) => {
       const target = e.target as HTMLAnchorElement;
-      if (target.getAttribute('href')?.startsWith('#')) {
+      const href = target.getAttribute('href');
+      if (href?.startsWith('#') && href.length > 1) { // Check that href is not just '#'
         e.preventDefault();
-        const targetElement = document.querySelector(target.getAttribute('href') || '');
+        const targetElement = document.querySelector(href);
         if (targetElement) {
           const offset = 80; // Height of fixed navbar
           const targetPosition = (targetElement as HTMLElement).offsetTop - offset;
@@ -50,6 +52,18 @@ export default function Home() {
             behavior: 'smooth'
           });
         }
+      }
+    };
+
+    // Handle logo click for smooth scroll to top
+    const handleLogoClick = (e: Event) => {
+      e.preventDefault();
+      // Only scroll if not already at top
+      if (window.scrollY > 0) {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
       }
     };
 
@@ -154,6 +168,7 @@ export default function Home() {
     document.addEventListener('click', handleExpertScrollClick);
     document.querySelector('.newsletter-form')?.addEventListener('submit', handleNewsletterSubmit);
     document.querySelector('.mobile-menu-toggle')?.addEventListener('click', handleMobileMenuClick);
+    document.querySelector('#logoLink')?.addEventListener('click', handleLogoClick);
     
     // Add mobile menu link click handlers
     const mobileMenuLinks = document.querySelectorAll('.nav-menu a');
@@ -192,6 +207,7 @@ export default function Home() {
       document.removeEventListener('click', handleExpertScrollClick);
       document.querySelector('.newsletter-form')?.removeEventListener('submit', handleNewsletterSubmit);
       document.querySelector('.mobile-menu-toggle')?.removeEventListener('click', handleMobileMenuClick);
+      document.querySelector('#logoLink')?.removeEventListener('click', handleLogoClick);
       
       // Remove mobile menu link click handlers
       const mobileMenuLinks = document.querySelectorAll('.nav-menu a');
@@ -214,18 +230,18 @@ export default function Home() {
       {/* Navigation */}
       <nav id="navbar">
         <div className="nav-container">
-          <a href="#" className="logo">
+          <Link href="/" className="logo" id="logoLink">
             <div className="logo-mark"></div>
             專注 | PROCUS
-          </a>
+          </Link>
           <div className="nav-menu">
             <a href="#why-procus">為何選擇專注</a>
             <a href="#experts">專家陣容</a>
-            <a href="/experts">所有專家</a>
+            <Link href="/experts">所有專家</Link>
             <a href="#cases">成功案例</a>
             <a href="#services">服務流程</a>
             <a href="#about">關於我們</a>
-            <a href="consultation.html" className="contact-btn">立即諮詢</a>
+            <Link href="/experts" className="contact-btn">立即諮詢</Link>
           </div>
           <div className="mobile-menu-toggle">
             <span></span>
@@ -248,10 +264,10 @@ export default function Home() {
           </p>
           
           <div className="hero-cta">
-            <a href="consultation.html" className="cta-primary">
+            <Link href="/experts" className="cta-primary">
               預約免費諮詢
               <span>→</span>
-            </a>
+            </Link>
             <a href="#services" className="cta-secondary">
               了解服務流程
             </a>
@@ -328,10 +344,10 @@ export default function Home() {
               </div>
             </div>
             
-            <a href="consultation.html" className="cta-primary" style={{marginTop: '2rem'}}>
+            <Link href="/experts" className="cta-primary" style={{marginTop: '2rem'}}>
               立即解決經營難題
               <span>→</span>
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -354,7 +370,7 @@ export default function Home() {
             <div className="experts-scroll-wrapper" id="expertsScrollWrapper">
               <div className="experts-grid">
                 {/* Expert 1 */}
-                <div className="expert-card">
+                <Link href="/experts?expert=1" className="expert-card">
                   <div className="expert-avatar">
                     <div className="avatar-image expert-1"></div>
                   </div>
@@ -371,10 +387,10 @@ export default function Home() {
                       <span className="highlight-badge">台積電背景</span>
                     </div>
                   </div>
-                </div>
+                </Link>
 
                 {/* Expert 2 */}
-                <div className="expert-card">
+                <Link href="/experts?expert=2" className="expert-card">
                   <div className="expert-avatar">
                     <div className="avatar-image expert-2"></div>
                   </div>
@@ -391,10 +407,10 @@ export default function Home() {
                       <span className="highlight-badge">momo背景</span>
                     </div>
                   </div>
-                </div>
+                </Link>
 
                 {/* Expert 3 */}
-                <div className="expert-card">
+                <Link href="/experts?expert=3" className="expert-card">
                   <div className="expert-avatar">
                     <div className="avatar-image expert-3"></div>
                   </div>
@@ -411,10 +427,10 @@ export default function Home() {
                       <span className="highlight-badge">王品背景</span>
                     </div>
                   </div>
-                </div>
+                </Link>
 
                 {/* Expert 4 */}
-                <div className="expert-card">
+                <Link href="/experts?expert=4" className="expert-card">
                   <div className="expert-avatar">
                     <div className="avatar-image expert-4"></div>
                   </div>
@@ -431,10 +447,10 @@ export default function Home() {
                       <span className="highlight-badge">玉山背景</span>
                     </div>
                   </div>
-                </div>
+                </Link>
 
                 {/* Expert 5 */}
-                <div className="expert-card">
+                <Link href="/experts?expert=5" className="expert-card">
                   <div className="expert-avatar">
                     <div className="avatar-image expert-5"></div>
                   </div>
@@ -451,10 +467,10 @@ export default function Home() {
                       <span className="highlight-badge">104背景</span>
                     </div>
                   </div>
-                </div>
+                </Link>
 
                 {/* Expert 6 */}
-                <div className="expert-card">
+                <Link href="/experts?expert=6" className="expert-card">
                   <div className="expert-avatar">
                     <div className="avatar-image expert-6"></div>
                   </div>
@@ -471,17 +487,17 @@ export default function Home() {
                       <span className="highlight-badge">聯發科背景</span>
                     </div>
                   </div>
-                </div>
+                </Link>
               </div>
             </div>
           </div>
           
           <div className="experts-footer">
             <p>還有更多各領域專家等著與您合作</p>
-            <a href="consultation.html" className="cta-primary">
+            <Link href="/experts" className="cta-primary">
               立即媒合專家
               <span>→</span>
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -645,10 +661,10 @@ export default function Home() {
             </div>
           </div>
           
-          <a href="consultation.html" className="cta-primary">
+          <Link href="/experts" className="cta-primary">
             預約免費諮詢
             <span>→</span>
-          </a>
+          </Link>
         </div>
       </section>
 
@@ -797,7 +813,7 @@ export default function Home() {
           <div className="footer-section">
             <h4>服務項目</h4>
             <ul className="footer-links">
-              <li><a href="consultation.html">企業顧問諮詢</a></li>
+              <li><Link href="/experts">企業顧問諮詢</Link></li>
               <li><a href="#services">服務流程說明</a></li>
               <li><a href="#cases">成功案例分享</a></li>
               <li><a href="#faq">常見問題</a></li>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 // 專家資料
 const expertsData = [
@@ -261,6 +262,18 @@ const expertsData = [
 export default function ExpertsPage() {
   const [selectedExpert, setSelectedExpert] = useState(expertsData[0]);
 
+  // Handle URL parameters to select specific expert
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const expertId = urlParams.get('expert');
+    if (expertId) {
+      const expert = expertsData.find(exp => exp.id === parseInt(expertId));
+      if (expert) {
+        setSelectedExpert(expert);
+      }
+    }
+  }, []);
+
   useEffect(() => {
     // Navbar scroll effect
     const handleScroll = () => {
@@ -295,9 +308,40 @@ export default function ExpertsPage() {
       e.stopPropagation();
     };
 
+    // Handle logo click for smooth scroll to top or navigate to home
+    const handleLogoClick = (e: Event) => {
+      const leftPanel = document.querySelector('.expert-detail-panel');
+      const rightPanel = document.querySelector('.experts-grid-panel');
+      
+      // Check if both panels are at the top
+      const leftAtTop = !leftPanel || leftPanel.scrollTop <= 10;
+      const rightAtTop = !rightPanel || rightPanel.scrollTop <= 10;
+      
+      if (leftAtTop && rightAtTop) {
+        // If at top, navigate to home page
+        window.location.href = '/';
+      } else {
+        // If not at top, scroll to top
+        e.preventDefault();
+        if (leftPanel) {
+          leftPanel.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        }
+        if (rightPanel) {
+          rightPanel.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        }
+      }
+    };
+
     // Add event listeners
     window.addEventListener('scroll', handleScroll);
     document.querySelector('.mobile-menu-toggle')?.addEventListener('click', handleMobileMenuClick);
+    document.querySelector('#logoLink')?.addEventListener('click', handleLogoClick);
     
     // Add mobile menu link click handlers
     const mobileMenuLinks = document.querySelectorAll('.nav-menu a');
@@ -320,6 +364,7 @@ export default function ExpertsPage() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
       document.querySelector('.mobile-menu-toggle')?.removeEventListener('click', handleMobileMenuClick);
+      document.querySelector('#logoLink')?.removeEventListener('click', handleLogoClick);
       
       // Remove mobile menu link click handlers
       const mobileMenuLinks = document.querySelectorAll('.nav-menu a');
@@ -341,17 +386,17 @@ export default function ExpertsPage() {
       {/* Navigation */}
       <nav id="navbar">
         <div className="nav-container">
-          <a href="/" className="logo">
+          <Link href="/" className="logo" id="logoLink">
             <div className="logo-mark"></div>
             專注 | PROCUS
-          </a>
+          </Link>
           <div className="nav-menu">
-            <a href="/#why-procus">為何選擇專注</a>
-            <a href="/#experts">專家陣容</a>
-            <a href="/#cases">成功案例</a>
-            <a href="/#services">服務流程</a>
-            <a href="/#about">關於我們</a>
-            <a href="/consultation.html" className="contact-btn">立即諮詢</a>
+            <Link href="/#why-procus">為何選擇專注</Link>
+            <Link href="/#experts">專家陣容</Link>
+            <Link href="/#cases">成功案例</Link>
+            <Link href="/#services">服務流程</Link>
+            <Link href="/#about">關於我們</Link>
+            <Link href="/experts" className="contact-btn">立即諮詢</Link>
           </div>
           <div className="mobile-menu-toggle">
             <span></span>
@@ -452,10 +497,10 @@ export default function ExpertsPage() {
 
             {/* CTA Button */}
             <div className="expert-cta">
-              <a href="/consultation.html" className="cta-primary">
+              <Link href="/experts" className="cta-primary">
                 預約諮詢 {selectedExpert.name}
                 <span>→</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
