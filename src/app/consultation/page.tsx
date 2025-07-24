@@ -3,43 +3,17 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
-interface FormData {
-  ownerName: string;
-  companyName: string;
-  jobTitle: string;
-  companySize: string;
-  capitalAmount: string;
-  businessDescription: string;
-  currentStatus: string;
-  challenges: string;
-  contactPhone: string;
-  contactEmail: string;
-  preferredTime: string;
-  urgency: string;
-  budget: string;
-  expectedOutcome: string;
-}
+
 
 export default function ConsultationPage() {
-  const [formData, setFormData] = useState<FormData>({
-    ownerName: '',
-    companyName: '',
+  const [showQuickForm, setShowQuickForm] = useState(false);
+  const [quickFormData, setQuickFormData] = useState({
+    name: '',
+    company: '',
     jobTitle: '',
-    companySize: '',
-    capitalAmount: '',
-    businessDescription: '',
-    currentStatus: '',
-    challenges: '',
-    contactPhone: '',
-    contactEmail: '',
-    preferredTime: '',
-    urgency: '',
-    budget: '',
-    expectedOutcome: ''
+    email: ''
   });
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [quickFormSubmitted, setQuickFormSubmitted] = useState(false);
 
   useEffect(() => {
     // Navbar scroll effect
@@ -51,6 +25,13 @@ export default function ConsultationPage() {
         } else {
           navbar.classList.remove('scrolled');
         }
+      }
+    };
+
+    // Handle ESC key to close modal
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && showQuickForm) {
+        setShowQuickForm(false);
       }
     };
 
@@ -72,6 +53,7 @@ export default function ConsultationPage() {
 
     // Add event listeners
     window.addEventListener('scroll', handleScroll);
+    document.addEventListener('keydown', handleKeyDown);
     document.querySelector('.mobile-menu-toggle')?.addEventListener('click', handleMobileMenuClick);
     
     // Add mobile menu link click handlers
@@ -83,6 +65,7 @@ export default function ConsultationPage() {
     // Cleanup
     return () => {
       window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener('keydown', handleKeyDown);
       document.querySelector('.mobile-menu-toggle')?.removeEventListener('click', handleMobileMenuClick);
       
       const mobileMenuLinks = document.querySelectorAll('.nav-menu a');
@@ -90,128 +73,39 @@ export default function ConsultationPage() {
         link.removeEventListener('click', handleMobileMenuLinkClick);
       });
     };
-  }, []);
+  }, [showQuickForm]);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleQuickFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setQuickFormData(prev => ({
       ...prev,
       [name]: value
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleQuickFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
+    
+    // 模擬提交快速表單
     try {
-      // 模擬API調用
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // 這裡可以添加實際的API調用
-      console.log('Form submitted:', formData);
-      
-      setSubmitSuccess(true);
-      
-      // 重置表單
-      setFormData({
-        ownerName: '',
-        companyName: '',
-        jobTitle: '',
-        companySize: '',
-        capitalAmount: '',
-        businessDescription: '',
-        currentStatus: '',
-        challenges: '',
-        contactPhone: '',
-        contactEmail: '',
-        preferredTime: '',
-        urgency: '',
-        budget: '',
-        expectedOutcome: ''
-      });
+      console.log('Quick form submitted:', quickFormData);
+      setQuickFormSubmitted(true);
+      setShowQuickForm(false); // 關閉彈窗
       
     } catch (error) {
-      console.error('Form submission error:', error);
+      console.error('Quick form submission error:', error);
       alert('提交失敗，請稍後再試');
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
-  if (submitSuccess) {
-    return (
-      <>
-        {/* Navigation */}
-        <nav id="navbar">
-          <div className="nav-container">
-            <Link href="/" className="logo">
-              <div className="logo-mark"></div>
-              專注 | PROCUS
-            </Link>
-            <div className="nav-menu">
-              <Link href="/#why-procus">為何選擇專注</Link>
-              <Link href="/#experts">專家陣容</Link>
-              <Link href="/#cases">成功案例</Link>
-              <Link href="/#services">服務流程</Link>
-              <Link href="/#about">關於我們</Link>
-              <Link href="/consultation" className="contact-btn">立即諮詢</Link>
-            </div>
-            <div className="mobile-menu-toggle">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-          </div>
-        </nav>
+  const handleGetReport = () => {
+    setShowQuickForm(true);
+  };
 
-        {/* Success Page */}
-        <div className="consultation-success">
-          <div className="success-content">
-            <div className="success-icon">✅</div>
-            <h1>諮詢申請已成功提交！</h1>
-            <p>感謝您選擇專注 PROCUS</p>
-            
-            <div className="success-details">
-              <h3>接下來會發生什麼？</h3>
-              <div className="success-steps">
-                <div className="success-step">
-                  <div className="step-number">1</div>
-                  <div className="step-content">
-                    <h4>24小時內聯繫</h4>
-                    <p>我們的專業顧問將在24小時內主動聯繫您</p>
-                  </div>
-                </div>
-                <div className="success-step">
-                  <div className="step-number">2</div>
-                  <div className="step-content">
-                    <h4>深度需求分析</h4>
-                    <p>透過電話或視訊進行30分鐘免費諮詢</p>
-                  </div>
-                </div>
-                <div className="success-step">
-                  <div className="step-number">3</div>
-                  <div className="step-content">
-                    <h4>專家精準媒合</h4>
-                    <p>根據您的需求推薦3位最適合的專業顧問</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="success-actions">
-              <Link href="/" className="cta-primary">
-                返回首頁
-              </Link>
-              <Link href="/experts" className="cta-secondary">
-                瀏覽專家陣容
-              </Link>
-            </div>
-          </div>
-        </div>
-      </>
-    );
-  }
+  const handleCloseQuickForm = () => {
+    setShowQuickForm(false);
+  };
+    
 
   return (
     <>
@@ -261,273 +155,571 @@ export default function ConsultationPage() {
             </div>
           </div>
 
-          {/* Form */}
-          <form className="consultation-form" onSubmit={handleSubmit}>
-            {/* 基本資訊 */}
-            <div className="form-section">
-              <h3 className="section-title">
-                <span className="section-icon">👤</span>
-                基本資訊
-              </h3>
-              
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="ownerName">企業主姓名 *</label>
-                  <input
-                    type="text"
-                    id="ownerName"
-                    name="ownerName"
-                    value={formData.ownerName}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="請輸入您的姓名"
-                  />
+          {/* Business Health Check */}
+          <div className="business-assessment">
+            <div className="assessment-header">
+              <h2>企業健診自評表</h2>
+              <p>透過以下問題快速了解您的企業目前處於哪個發展階段，以及需要重點關注的領域</p>
+            </div>
+
+            <div className="assessment-stages">
+              {/* Stage 1 */}
+              <div className="stage-section">
+                <div className="stage-header">
+                  <div className="stage-number">01</div>
+                  <div className="stage-info">
+                    <h3>定位與驗證 (0-1)</h3>
+                    <p>你是誰？你的戰場在哪？</p>
+                    <span className="stage-desc">這個階段的核心是確保「方向」正確，避免在錯誤的道路上狂奔。</span>
+                  </div>
                 </div>
-                
-                <div className="form-group">
-                  <label htmlFor="jobTitle">職稱/抬頭 *</label>
-                  <input
-                    type="text"
-                    id="jobTitle"
-                    name="jobTitle"
-                    value={formData.jobTitle}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="例：執行長、總經理、創辦人"
-                  />
+                <div className="stage-questions">
+                  <div className="question-item">
+                    <span className="question-number">1</span>
+                    <div className="question-content">
+                      <p>你是否能用一句話說清楚「你是誰，為誰解決什麼問題」？</p>
+                      <div className="yes-no-options">
+                        <label className="option-item">
+                          <input type="radio" name="q1" value="yes" />
+                          <span>是</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="radio" name="q1" value="no" />
+                          <span>否</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="question-item">
+                    <span className="question-number">2</span>
+                    <div className="question-content">
+                      <p>你是否清楚相較於競爭對手，客戶選擇你的「獨特理由」？</p>
+                      <div className="yes-no-options">
+                        <label className="option-item">
+                          <input type="radio" name="q2" value="yes" />
+                          <span>是</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="radio" name="q2" value="no" />
+                          <span>否</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="question-item">
+                    <span className="question-number">3</span>
+                    <div className="question-content">
+                      <p>你的獲利模式包含哪些？（可複選）</p>
+                      <div className="question-options">
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>產品銷售</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>服務收費</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>訂閱制</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>授權金</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>廣告收益</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>佣金抽成</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>加盟費用</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>其他</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="question-item">
+                    <span className="question-number">4</span>
+                    <div className="question-content">
+                      <p>你是否已經有第一批付費客戶，並獲得正面回饋？</p>
+                      <div className="yes-no-options">
+                        <label className="option-item">
+                          <input type="radio" name="q4" value="yes" />
+                          <span>是</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="radio" name="q4" value="no" />
+                          <span>否</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="contactPhone">聯絡電話 *</label>
-                  <input
-                    type="tel"
-                    id="contactPhone"
-                    name="contactPhone"
-                    value={formData.contactPhone}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="例：0912-345-678"
-                  />
+              {/* Stage 2 */}
+              <div className="stage-section">
+                <div className="stage-header">
+                  <div className="stage-number">02</div>
+                  <div className="stage-info">
+                    <h3>引擎搭建 (1-10)</h3>
+                    <p>如何讓對的人找到你？</p>
+                    <span className="stage-desc">方向對了，就要開始打造一部能持續帶來潛在客戶的「獲客引擎」。</span>
+                  </div>
                 </div>
-                
-                <div className="form-group">
-                  <label htmlFor="contactEmail">電子信箱 *</label>
-                  <input
-                    type="email"
-                    id="contactEmail"
-                    name="contactEmail"
-                    value={formData.contactEmail}
-                    onChange={handleInputChange}
-                    required
-                    placeholder="example@company.com"
-                  />
+                <div className="stage-questions">
+                  <div className="question-item">
+                    <span className="question-number">5</span>
+                    <div className="question-content">
+                      <p>你是否有一套讓客戶無法抗拒的核心產品/服務提案？</p>
+                      <div className="yes-no-options">
+                        <label className="option-item">
+                          <input type="radio" name="q5" value="yes" />
+                          <span>是</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="radio" name="q5" value="no" />
+                          <span>否</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="question-item">
+                    <span className="question-number">6</span>
+                    <div className="question-content">
+                      <p>你的客戶來源管道包含哪些？（可複選）</p>
+                      <div className="question-options">
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>口碑推薦</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>社群媒體</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>Google廣告</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>Facebook廣告</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>官方網站SEO</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>線下活動</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>業務開發</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>合作夥伴</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>傳統媒體</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>電商平台</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>內容行銷</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>其他</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="question-item">
+                    <span className="question-number">7</span>
+                    <div className="question-content">
+                      <p>你是否有定期產出對目標客戶有價值的內容？</p>
+                      <div className="yes-no-options">
+                        <label className="option-item">
+                          <input type="radio" name="q7" value="yes" />
+                          <span>是</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="radio" name="q7" value="no" />
+                          <span>否</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="question-item">
+                    <span className="question-number">8</span>
+                    <div className="question-content">
+                      <p>你是否有效收集潛在客戶名單 (Leads)？</p>
+                      <div className="yes-no-options">
+                        <label className="option-item">
+                          <input type="radio" name="q8" value="yes" />
+                          <span>是</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="radio" name="q8" value="no" />
+                          <span>否</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Stage 3 */}
+              <div className="stage-section">
+                <div className="stage-header">
+                  <div className="stage-number">03</div>
+                  <div className="stage-info">
+                    <h3>加速與優化 (10-50)</h3>
+                    <p>如何高效成交並規模化交付？</p>
+                    <span className="stage-desc">有了穩定的客源，接下來要提升轉換效率，並確保營運能跟上。</span>
+                  </div>
+                </div>
+                <div className="stage-questions">
+                  <div className="question-item">
+                    <span className="question-number">9</span>
+                    <div className="question-content">
+                      <p>你是否有標準化的銷售流程 (Sales Process)？</p>
+                      <div className="yes-no-options">
+                        <label className="option-item">
+                          <input type="radio" name="q9" value="yes" />
+                          <span>是</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="radio" name="q9" value="no" />
+                          <span>否</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="question-item">
+                    <span className="question-number">10</span>
+                    <div className="question-content">
+                      <p>客戶從認識到付費過程中，主要卡關點有哪些？（可複選）</p>
+                      <div className="question-options">
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>價格過高</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>信任度不足</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>產品說明不清</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>競爭對手更強</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>決策流程太長</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>需求不夠急迫</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>付款方式限制</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>缺乏成功案例</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>溝通不夠頻繁</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>服務範圍不符</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>時機不對</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="checkbox" />
+                          <span>其他</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="question-item">
+                    <span className="question-number">11</span>
+                    <div className="question-content">
+                      <p>產品交付或服務流程是否已標準化 (SOP)？</p>
+                      <div className="yes-no-options">
+                        <label className="option-item">
+                          <input type="radio" name="q11" value="yes" />
+                          <span>是</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="radio" name="q11" value="no" />
+                          <span>否</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="question-item">
+                    <span className="question-number">12</span>
+                    <div className="question-content">
+                      <p>你是否花太多時間在重複性的行政工作上？</p>
+                      <div className="yes-no-options">
+                        <label className="option-item">
+                          <input type="radio" name="q12" value="yes" />
+                          <span>是</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="radio" name="q12" value="no" />
+                          <span>否</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Stage 4 */}
+              <div className="stage-section">
+                <div className="stage-header">
+                  <div className="stage-number">04</div>
+                  <div className="stage-info">
+                    <h3>規模與壁壘 (50-100)</h3>
+                    <p>如何打造可持續的護城河？</p>
+                    <span className="stage-desc">當企業進入高速成長期，人才、財務與風險控管成為建立長期競爭優勢的關鍵。</span>
+                  </div>
+                </div>
+                <div className="stage-questions">
+                  <div className="question-item">
+                    <span className="question-number">13</span>
+                    <div className="question-content">
+                      <p>你是否清楚下一個需要招聘的關鍵職位是什麼？</p>
+                      <div className="yes-no-options">
+                        <label className="option-item">
+                          <input type="radio" name="q13" value="yes" />
+                          <span>是</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="radio" name="q13" value="no" />
+                          <span>否</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="question-item">
+                    <span className="question-number">14</span>
+                    <div className="question-content">
+                      <p>如果你休假一個月，公司能否正常運作？</p>
+                      <div className="yes-no-options">
+                        <label className="option-item">
+                          <input type="radio" name="q14" value="yes" />
+                          <span>是</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="radio" name="q14" value="no" />
+                          <span>否</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="question-item">
+                    <span className="question-number">15</span>
+                    <div className="question-content">
+                      <p>你是否能看懂公司的財務三表（損益表、資產負債表、現金流量表）？</p>
+                      <div className="yes-no-options">
+                        <label className="option-item">
+                          <input type="radio" name="q15" value="yes" />
+                          <span>是</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="radio" name="q15" value="no" />
+                          <span>否</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="question-item">
+                    <span className="question-number">16</span>
+                    <div className="question-content">
+                      <p>公司是否有基本的法律文件（如：股東協議、客戶合約、隱私權政策）？</p>
+                      <div className="yes-no-options">
+                        <label className="option-item">
+                          <input type="radio" name="q16" value="yes" />
+                          <span>是</span>
+                        </label>
+                        <label className="option-item">
+                          <input type="radio" name="q16" value="no" />
+                          <span>否</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* 公司資訊 */}
-            <div className="form-section">
-              <h3 className="section-title">
-                <span className="section-icon">🏢</span>
-                公司資訊
-              </h3>
-              
-              <div className="form-group">
-                <label htmlFor="companyName">公司名稱 *</label>
-                <input
-                  type="text"
-                  id="companyName"
-                  name="companyName"
-                  value={formData.companyName}
-                  onChange={handleInputChange}
-                  required
-                  placeholder="請輸入公司全名"
-                />
-              </div>
-
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="companySize">公司人數 *</label>
-                  <select
-                    id="companySize"
-                    name="companySize"
-                    value={formData.companySize}
-                    onChange={handleInputChange}
-                    required
-                  >
-                    <option value="">請選擇</option>
-                    <option value="1-10">1-10人</option>
-                    <option value="11-50">11-50人</option>
-                    <option value="51-100">51-100人</option>
-                    <option value="101-500">101-500人</option>
-                    <option value="500+">500人以上</option>
-                  </select>
-                </div>
-                
-                <div className="form-group">
-                  <label htmlFor="capitalAmount">公司資本額</label>
-                  <select
-                    id="capitalAmount"
-                    name="capitalAmount"
-                    value={formData.capitalAmount}
-                    onChange={handleInputChange}
-                  >
-                    <option value="">請選擇（可不填）</option>
-                    <option value="under-1m">100萬以下</option>
-                    <option value="1m-5m">100萬-500萬</option>
-                    <option value="5m-10m">500萬-1000萬</option>
-                    <option value="10m-50m">1000萬-5000萬</option>
-                    <option value="50m+">5000萬以上</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="businessDescription">公司服務簡述 *</label>
-                <textarea
-                  id="businessDescription"
-                  name="businessDescription"
-                  value={formData.businessDescription}
-                  onChange={handleInputChange}
-                  required
-                  rows={3}
-                  placeholder="請簡述您的公司主要業務、產品或服務內容"
-                />
-              </div>
-            </div>
-
-            {/* 營運現況與需求 */}
-            <div className="form-section">
-              <h3 className="section-title">
-                <span className="section-icon">📊</span>
-                營運現況與需求
-              </h3>
-              
-              <div className="form-group">
-                <label htmlFor="currentStatus">公司營運現況 *</label>
-                <textarea
-                  id="currentStatus"
-                  name="currentStatus"
-                  value={formData.currentStatus}
-                  onChange={handleInputChange}
-                  required
-                  rows={3}
-                  placeholder="請描述目前公司的營運狀況，例：營收規模、市場地位、團隊狀況等"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="challenges">目前所遇到的困難 *</label>
-                <textarea
-                  id="challenges"
-                  name="challenges"
-                  value={formData.challenges}
-                  onChange={handleInputChange}
-                  required
-                  rows={4}
-                  placeholder="請詳細描述目前面臨的挑戰，例：營收成長停滯、管理制度不完善、數位轉型困難、人才招募問題等"
-                />
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="expectedOutcome">期望達成的目標</label>
-                <textarea
-                  id="expectedOutcome"
-                  name="expectedOutcome"
-                  value={formData.expectedOutcome}
-                  onChange={handleInputChange}
-                  rows={3}
-                  placeholder="請說明您希望透過顧問服務達成的具體目標"
-                />
-              </div>
-            </div>
-
-            {/* 諮詢偏好 */}
-            <div className="form-section">
-              <h3 className="section-title">
-                <span className="section-icon">⚙️</span>
-                諮詢偏好
-              </h3>
-              
-              <div className="form-row">
-                <div className="form-group">
-                  <label htmlFor="preferredTime">希望聯繫時間</label>
-                  <select
-                    id="preferredTime"
-                    name="preferredTime"
-                    value={formData.preferredTime}
-                    onChange={handleInputChange}
-                  >
-                    <option value="">請選擇</option>
-                    <option value="morning">上午 (9:00-12:00)</option>
-                    <option value="afternoon">下午 (13:00-17:00)</option>
-                    <option value="evening">晚上 (18:00-21:00)</option>
-                    <option value="anytime">任何時間皆可</option>
-                  </select>
-                </div>
-                
-                <div className="form-group">
-                  <label htmlFor="urgency">需求急迫性</label>
-                  <select
-                    id="urgency"
-                    name="urgency"
-                    value={formData.urgency}
-                    onChange={handleInputChange}
-                  >
-                    <option value="">請選擇</option>
-                    <option value="urgent">非常急迫（1週內）</option>
-                    <option value="soon">儘快處理（1個月內）</option>
-                    <option value="normal">正常規劃（3個月內）</option>
-                    <option value="flexible">時間彈性</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="budget">預期投資預算範圍</label>
-                <select
-                  id="budget"
-                  name="budget"
-                  value={formData.budget}
-                  onChange={handleInputChange}
+            <div className="assessment-footer">
+              <div className="assessment-cta">
+                <p>想要針對這些問題獲得專業建議嗎？</p>
+                <button 
+                  type="button" 
+                  className="scroll-to-form-btn"
+                  onClick={handleGetReport}
                 >
-                  <option value="">請選擇（可不填）</option>
-                  <option value="under-50k">5萬以下</option>
-                  <option value="50k-100k">5萬-10萬</option>
-                  <option value="100k-300k">10萬-30萬</option>
-                  <option value="300k-500k">30萬-50萬</option>
-                  <option value="500k+">50萬以上</option>
-                </select>
+                  取得免費健診報告
+                </button>
               </div>
             </div>
+          </div>
 
-            {/* 提交按鈕 */}
-            <div className="form-submit">
-              <button 
-                type="submit" 
-                className="submit-btn"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                  <>
-                    <span className="loading-spinner"></span>
-                    提交中...
-                  </>
-                ) : (
-                  <>
-                    立即提交諮詢申請
-                    <span>→</span>
-                  </>
-                )}
-              </button>
-              
-              <p className="form-notice">
-                * 為必填欄位。提交後我們將在24小時內聯繫您安排免費諮詢。
-              </p>
+          {/* Quick Contact Form Modal */}
+          {showQuickForm && !quickFormSubmitted && (
+            <div className="modal-overlay" onClick={handleCloseQuickForm}>
+              <div className="quick-contact-modal" onClick={(e) => e.stopPropagation()}>
+                <button className="modal-close-btn" onClick={handleCloseQuickForm}>
+                  ×
+                </button>
+                
+                <div className="quick-form-header">
+                  <h3>快速取得您的健診報告</h3>
+                  <p>請先提供基本資訊，我們將為您準備個人化的企業健診報告</p>
+                </div>
+                
+                <form onSubmit={handleQuickFormSubmit} className="quick-form">
+                  <div className="quick-form-row">
+                    <div className="quick-form-group">
+                      <label htmlFor="quickName">姓名 *</label>
+                      <input
+                        type="text"
+                        id="quickName"
+                        name="name"
+                        value={quickFormData.name}
+                        onChange={handleQuickFormChange}
+                        required
+                        placeholder="請輸入您的姓名"
+                      />
+                    </div>
+                    
+                    <div className="quick-form-group">
+                      <label htmlFor="quickJobTitle">職稱 *</label>
+                      <input
+                        type="text"
+                        id="quickJobTitle"
+                        name="jobTitle"
+                        value={quickFormData.jobTitle}
+                        onChange={handleQuickFormChange}
+                        required
+                        placeholder="例：執行長、總經理"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="quick-form-row">
+                    <div className="quick-form-group">
+                      <label htmlFor="quickCompany">公司名稱 *</label>
+                      <input
+                        type="text"
+                        id="quickCompany"
+                        name="company"
+                        value={quickFormData.company}
+                        onChange={handleQuickFormChange}
+                        required
+                        placeholder="請輸入公司名稱"
+                      />
+                    </div>
+                    
+                    <div className="quick-form-group">
+                      <label htmlFor="quickEmail">電子信箱 *</label>
+                      <input
+                        type="email"
+                        id="quickEmail"
+                        name="email"
+                        value={quickFormData.email}
+                        onChange={handleQuickFormChange}
+                        required
+                        placeholder="example@company.com"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="quick-form-submit">
+                    <button type="submit" className="quick-submit-btn">
+                      立即取得健診報告
+                      <span>→</span>
+                    </button>
+                    <p className="quick-form-note">
+                      * 為必填欄位。我們將在5分鐘內將您的健診報告發送至您的信箱
+                    </p>
+                  </div>
+                </form>
+              </div>
             </div>
-          </form>
+          )}
+
+
+
+          {/* Success Message */}
+          {quickFormSubmitted && (
+            <div className="final-success-message">
+              <div className="success-content">
+                <div className="success-icon">✅</div>
+                <h2>健診報告準備完成！</h2>
+                <p>感謝 <strong>{quickFormData.name}</strong>！您的企業健診報告將在5分鐘內發送至</p>
+                <p className="email-highlight">{quickFormData.email}</p>
+                
+                <div className="next-steps">
+                  <h3>接下來會發生什麼？</h3>
+                  <div className="steps-grid">
+                    <div className="step-card">
+                      <span className="step-icon">📧</span>
+                      <h4>健診報告</h4>
+                      <p>個人化企業健診報告發送至您的信箱</p>
+                    </div>
+                    <div className="step-card">
+                      <span className="step-icon">📞</span>
+                      <h4>專業諮詢</h4>
+                      <p>如有需要將主動聯繫安排免費諮詢</p>
+                    </div>
+                    <div className="step-card">
+                      <span className="step-icon">🚀</span>
+                      <h4>解決方案</h4>
+                      <p>提供客製化的顧問服務方案</p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="contact-info">
+                  <p>如有任何問題，歡迎隨時聯繫我們</p>
+                  <div className="contact-details">
+                    <span>📞 0800-123-456</span>
+                    <span>📧 contact@procus.tw</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </>
