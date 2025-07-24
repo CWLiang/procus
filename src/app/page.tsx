@@ -301,7 +301,7 @@ export default function Home() {
             <a href="#cases">成功案例</a>
             <a href="#services">服務流程</a>
             <a href="#about">關於我們</a>
-            <Link href="/consultation" className="contact-btn">立即諮詢</Link>
+            <Link href="/consultation" className="contact-btn">免費企業健診</Link>
           </div>
           <div className="mobile-menu-toggle">
             <span></span>
@@ -325,7 +325,7 @@ export default function Home() {
           
           <div className="hero-cta">
             <Link href="/consultation" className="cta-primary">
-              預約免費諮詢
+              預約企業健診
               <span>→</span>
             </Link>
             <a href="#services" className="cta-secondary">
@@ -614,7 +614,7 @@ export default function Home() {
       <section className="cta-section">
         <div className="cta-content">
           <h2>準備好突破經營瓶頸了嗎？</h2>
-          <p>立即預約免費諮詢，讓專業顧問協助您找到最佳解決方案</p>
+          <p>立即預約企業健診，讓專業顧問協助您找到最佳解決方案</p>
           
           <div className="cta-stats">
             <div className="cta-stat">
@@ -632,7 +632,7 @@ export default function Home() {
           </div>
           
           <Link href="/consultation" className="cta-primary">
-            預約免費諮詢
+            預約企業健診
             <span>→</span>
           </Link>
         </div>
