@@ -215,26 +215,6 @@ export default function ConsultationPage() {
       {/* Consultation Form */}
       <div className="consultation-page">
         <div className="consultation-container">
-          {/* Header */}
-          <div className="consultation-header">
-            <h1>免費企業諮詢申請</h1>
-            <p>請填寫以下資訊，我們將為您匹配最適合的專業顧問</p>
-            <div className="consultation-benefits">
-              <div className="benefit-item">
-                <span className="benefit-icon">🎯</span>
-                <span>精準媒合專家</span>
-              </div>
-              <div className="benefit-item">
-                <span className="benefit-icon">💡</span>
-                <span>30分鐘免費諮詢</span>
-              </div>
-              <div className="benefit-item">
-                <span className="benefit-icon">🚀</span>
-                <span>24小時內回覆</span>
-              </div>
-            </div>
-          </div>
-
           {/* Business Health Check */}
           <div className="business-assessment">
             <div className="assessment-header">
