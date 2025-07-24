@@ -3221,6 +3221,37 @@ footer {
   box-shadow: 0 12px 40px rgba(59, 130, 246, 0.4);
 }
 
+.validation-error {
+  margin-top: 20px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #fef2f2, #fee2e2);
+  border: 1px solid #fca5a5;
+  border-radius: 8px;
+  color: #dc2626;
+  font-size: 0.95rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  animation: errorSlideIn 0.3s ease-out;
+}
+
+.error-icon {
+  font-size: 1.1rem;
+}
+
+@keyframes errorSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* Quick Contact Form Modal Styles */
 .modal-overlay {
   position: fixed;
@@ -3553,6 +3584,17 @@ footer {
 
   .scroll-to-form-btn {
     padding: 14px 24px;
+    font-size: 1rem;
+  }
+
+  .validation-error {
+    margin-top: 16px;
+    padding: 10px 16px;
+    font-size: 0.9rem;
+    gap: 6px;
+  }
+
+  .error-icon {
     font-size: 1rem;
   }
 

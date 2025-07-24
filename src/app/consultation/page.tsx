@@ -14,6 +14,7 @@ export default function ConsultationPage() {
     email: ''
   });
   const [quickFormSubmitted, setQuickFormSubmitted] = useState(false);
+  const [validationError, setValidationError] = useState('');
 
   useEffect(() => {
     // Navbar scroll effect
@@ -51,10 +52,23 @@ export default function ConsultationPage() {
       mobileMenuToggle?.classList.remove('active');
     };
 
+    // Handle input changes to clear validation error
+    const handleInputChange = () => {
+      if (validationError) {
+        setValidationError('');
+      }
+    };
+
     // Add event listeners
     window.addEventListener('scroll', handleScroll);
     document.addEventListener('keydown', handleKeyDown);
     document.querySelector('.mobile-menu-toggle')?.addEventListener('click', handleMobileMenuClick);
+    
+    // Add change listeners to all form inputs
+    const inputs = document.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+    inputs.forEach(input => {
+      input.addEventListener('change', handleInputChange);
+    });
     
     // Add mobile menu link click handlers
     const mobileMenuLinks = document.querySelectorAll('.nav-menu a');
@@ -68,12 +82,18 @@ export default function ConsultationPage() {
       document.removeEventListener('keydown', handleKeyDown);
       document.querySelector('.mobile-menu-toggle')?.removeEventListener('click', handleMobileMenuClick);
       
+      // Remove input change listeners
+      const inputs = document.querySelectorAll('input[type="radio"], input[type="checkbox"]');
+      inputs.forEach(input => {
+        input.removeEventListener('change', handleInputChange);
+      });
+      
       const mobileMenuLinks = document.querySelectorAll('.nav-menu a');
       mobileMenuLinks.forEach(link => {
         link.removeEventListener('click', handleMobileMenuLinkClick);
       });
     };
-  }, [showQuickForm]);
+  }, [showQuickForm, validationError]);
 
   const handleQuickFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -99,6 +119,66 @@ export default function ConsultationPage() {
   };
 
   const handleGetReport = () => {
+    // 清除之前的錯誤訊息
+    setValidationError('');
+    
+    // 檢查所有16個問題是否都已回答
+    const questions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+    const unansweredQuestions = [];
+    
+    for (const qNum of questions) {
+      if ([3, 6, 10].includes(qNum)) {
+        // 多選題：檢查是否至少選了一個選項
+        const checkboxes = document.querySelectorAll(`input[name="q${qNum}"]:checked`);
+        if (checkboxes.length === 0) {
+          unansweredQuestions.push(qNum);
+        }
+      } else {
+        // 單選題：檢查是否選了選項
+        const radioButtons = document.querySelectorAll(`input[name="q${qNum}"]:checked`);
+        if (radioButtons.length === 0) {
+          unansweredQuestions.push(qNum);
+        }
+      }
+    }
+    
+    if (unansweredQuestions.length > 0) {
+      // 有未回答的問題
+      const firstUnanswered = unansweredQuestions[0];
+      
+      // 滾動到第一個未回答的問題
+      const questionElement = document.querySelector(`.question-item .question-number:nth-of-type(1)`);
+      const targetQuestion = Array.from(document.querySelectorAll('.question-number')).find(
+        el => el.textContent?.trim() === firstUnanswered.toString()
+      );
+      
+      if (targetQuestion) {
+        const questionItem = targetQuestion.closest('.question-item') as HTMLElement;
+        if (questionItem) {
+          questionItem.scrollIntoView({ 
+            behavior: 'smooth', 
+            block: 'center' 
+          });
+          
+          // 添加高亮效果
+          questionItem.style.backgroundColor = '#fef3c7';
+          questionItem.style.border = '2px solid #f59e0b';
+          
+          // 3秒後移除高亮效果
+          setTimeout(() => {
+            questionItem.style.backgroundColor = '';
+            questionItem.style.border = '';
+          }, 3000);
+        }
+      }
+      
+      // 顯示錯誤訊息
+      setValidationError(`請完成第 ${unansweredQuestions.join(', ')} 題後再取得健診報告`);
+      
+      return;
+    }
+    
+    // 所有問題都已回答，顯示快速表單
     setShowQuickForm(true);
   };
 
@@ -212,35 +292,35 @@ export default function ConsultationPage() {
                       <p>你的獲利模式包含哪些？（可複選）</p>
                       <div className="question-options">
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q3" value="product-sales" />
                           <span>產品銷售</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q3" value="service-fee" />
                           <span>服務收費</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q3" value="subscription" />
                           <span>訂閱制</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q3" value="licensing" />
                           <span>授權金</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q3" value="advertising" />
                           <span>廣告收益</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q3" value="commission" />
                           <span>佣金抽成</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q3" value="franchise" />
                           <span>加盟費用</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q3" value="others" />
                           <span>其他</span>
                         </label>
                       </div>
@@ -298,51 +378,51 @@ export default function ConsultationPage() {
                       <p>你的客戶來源管道包含哪些？（可複選）</p>
                       <div className="question-options">
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q6" value="word-of-mouth" />
                           <span>口碑推薦</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q6" value="social-media" />
                           <span>社群媒體</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q6" value="google-ads" />
                           <span>Google廣告</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q6" value="facebook-ads" />
                           <span>Facebook廣告</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q6" value="seo" />
                           <span>官方網站SEO</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q6" value="offline-events" />
                           <span>線下活動</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q6" value="business-development" />
                           <span>業務開發</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q6" value="partnerships" />
                           <span>合作夥伴</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q6" value="traditional-media" />
                           <span>傳統媒體</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q6" value="ecommerce" />
                           <span>電商平台</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q6" value="content-marketing" />
                           <span>內容行銷</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q6" value="others" />
                           <span>其他</span>
                         </label>
                       </div>
@@ -416,51 +496,51 @@ export default function ConsultationPage() {
                       <p>客戶從認識到付費過程中，主要卡關點有哪些？（可複選）</p>
                       <div className="question-options">
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q10" value="price-too-high" />
                           <span>價格過高</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q10" value="lack-of-trust" />
                           <span>信任度不足</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q10" value="unclear-product" />
                           <span>產品說明不清</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q10" value="strong-competitors" />
                           <span>競爭對手更強</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q10" value="long-decision-process" />
                           <span>決策流程太長</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q10" value="not-urgent-need" />
                           <span>需求不夠急迫</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q10" value="payment-limitations" />
                           <span>付款方式限制</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q10" value="lack-case-studies" />
                           <span>缺乏成功案例</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q10" value="insufficient-communication" />
                           <span>溝通不夠頻繁</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q10" value="service-mismatch" />
                           <span>服務範圍不符</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q10" value="wrong-timing" />
                           <span>時機不對</span>
                         </label>
                         <label className="option-item">
-                          <input type="checkbox" />
+                          <input type="checkbox" name="q10" value="others" />
                           <span>其他</span>
                         </label>
                       </div>
@@ -590,6 +670,12 @@ export default function ConsultationPage() {
                 >
                   取得免費健診報告
                 </button>
+                {validationError && (
+                  <div className="validation-error">
+                    <span className="error-icon">⚠️</span>
+                    <span>{validationError}</span>
+                  </div>
+                )}
               </div>
             </div>
           </div>
