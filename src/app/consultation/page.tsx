@@ -103,14 +103,64 @@ export default function ConsultationPage() {
     }));
   };
 
+  const collectAssessmentAnswers = () => {
+    const answers = [];
+    
+    // 收集所有問題的答案
+    for (let i = 1; i <= 16; i++) {
+      if ([3, 6, 10].includes(i)) {
+        // 多選題
+        const checkedBoxes = document.querySelectorAll(`input[name="q${i}"]:checked`) as NodeListOf<HTMLInputElement>;
+        const values = Array.from(checkedBoxes).map(checkbox => {
+          const label = checkbox.parentElement?.textContent?.trim() || checkbox.value;
+          return label;
+        });
+        if (values.length > 0) {
+          answers.push({ question: i, answer: values });
+        }
+      } else {
+        // 單選題
+        const checkedRadio = document.querySelector(`input[name="q${i}"]:checked`) as HTMLInputElement;
+        if (checkedRadio) {
+          answers.push({ question: i, answer: checkedRadio.value });
+        }
+      }
+    }
+    
+    return answers;
+  };
+
   const handleQuickFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // 模擬提交快速表單
     try {
-      console.log('Quick form submitted:', quickFormData);
-      setQuickFormSubmitted(true);
-      setShowQuickForm(false); // 關閉彈窗
+      // 收集問卷答案
+      const assessmentAnswers = collectAssessmentAnswers();
+      
+      // 準備發送的資料
+      const submissionData = {
+        personalInfo: quickFormData,
+        assessmentAnswers: assessmentAnswers
+      };
+      
+      // 發送到API
+      const response = await fetch('/api/submit-assessment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(submissionData)
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        console.log('表單提交成功:', result.message);
+        setQuickFormSubmitted(true);
+        setShowQuickForm(false);
+      } else {
+        throw new Error(result.message || '提交失敗');
+      }
       
     } catch (error) {
       console.error('Quick form submission error:', error);
@@ -147,7 +197,6 @@ export default function ConsultationPage() {
       const firstUnanswered = unansweredQuestions[0];
       
       // 滾動到第一個未回答的問題
-      const questionElement = document.querySelector(`.question-item .question-number:nth-of-type(1)`);
       const targetQuestion = Array.from(document.querySelectorAll('.question-number')).find(
         el => el.textContent?.trim() === firstUnanswered.toString()
       );
