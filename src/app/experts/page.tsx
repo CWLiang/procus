@@ -7,6 +7,7 @@ import ExpertAvatar from '@/components/ExpertAvatar';
 
 export default function ExpertsPage() {
   const [selectedExpert, setSelectedExpert] = useState<ExpertData>(expertsData[0]);
+  const [showExpertsList, setShowExpertsList] = useState(false);
 
   // Handle URL parameters to select specific expert
   useEffect(() => {
@@ -152,7 +153,7 @@ export default function ExpertsPage() {
       {/* Expert Detail Page */}
       <div className="expert-detail-page">
         {/* Left Panel - Selected Expert Detail */}
-        <div className="expert-detail-panel">
+        <div className={`expert-detail-panel ${showExpertsList ? '' : 'full-width'}`}>
           <div className="expert-detail-content">
             {/* Expert Header */}
             <div className="expert-header">
@@ -167,7 +168,16 @@ export default function ExpertsPage() {
                 />
               </div>
               <div className="expert-main-info">
-                <h1 className="expert-main-name">{selectedExpert.name}</h1>
+                <div className="expert-name-section">
+                  <h1 className="expert-main-name">{selectedExpert.name}</h1>
+                  <button 
+                    onClick={() => setShowExpertsList(!showExpertsList)}
+                    className="experts-toggle-btn-inline"
+                  >
+                    {showExpertsList ? '隱藏專家列表' : '查看所有專家'}
+                    <span>{showExpertsList ? '←' : '→'}</span>
+                  </button>
+                </div>
                 <div className="expert-main-title">{selectedExpert.title}</div>
                 <div className="expert-main-expertise">{selectedExpert.expertise}</div>
                 <div className="expert-main-highlights">
@@ -178,85 +188,90 @@ export default function ExpertsPage() {
               </div>
             </div>
 
-            {/* Expert Bio */}
-            <div className="expert-section">
-              <h3 className="section-title">專業背景</h3>
-              <p className="expert-full-bio">{selectedExpert.fullBio}</p>
-            </div>
+            {/* Expert Sections - Two Column Layout */}
+            <div className="expert-sections-container">
+              {/* Left Column: Bio + Cases */}
+              <div className="expert-left-column">
+                <div className="expert-section">
+                  <h3 className="section-title">專業背景</h3>
+                  <p className="expert-full-bio">{selectedExpert.fullBio}</p>
+                </div>
+                
+                <div className="expert-section">
+                  <h3 className="section-title">成功案例</h3>
+                  <div className="success-cases">
+                    {selectedExpert.successCases.map((case_, index) => (
+                      <div key={index} className="success-case">
+                        <div className="case-company">{case_.company}</div>
+                        <div className="case-details">
+                          <div className="case-item">
+                            <span className="case-label">產業：</span>
+                            <span className="case-text">{case_.industry}</span>
+                          </div>
+                          <div className="case-item">
+                            <span className="case-label">挑戰：</span>
+                            <span className="case-text">{case_.challenge}</span>
+                          </div>
+                          <div className="case-item">
+                            <span className="case-label">解決方案：</span>
+                            <span className="case-text">{case_.solution}</span>
+                          </div>
+                          <div className="case-result">
+                            <span className="case-label">成果：</span>
+                            <span className="case-text">{case_.result}</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
 
-            {/* Specialties */}
-            <div className="expert-section">
-              <h3 className="section-title">專業領域</h3>
-              <div className="specialties-list">
-                {selectedExpert.specialties.map((specialty, index) => (
-                  <div key={index} className="specialty-item">
-                    <span className="specialty-icon">{specialty.icon}</span>
-                    <div className="specialty-text">
-                      <h4>{specialty.title}</h4>
-                      <p>{specialty.description}</p>
+              {/* Right Column: Specialties + Credentials */}
+              <div className="expert-right-column">
+                <div className="expert-section">
+                  <h3 className="section-title">專業領域</h3>
+                  <div className="specialties-list">
+                    {selectedExpert.specialties.map((specialty, index) => (
+                      <div key={index} className="specialty-item">
+                        <span className="specialty-icon">{specialty.icon}</span>
+                        <div className="specialty-text">
+                          <h4>{specialty.title}</h4>
+                          <p>{specialty.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="expert-section">
+                  <h3 className="section-title">學歷與認證</h3>
+                  <div className="expert-credentials">
+                    <div className="credential-section">
+                      <h4>學歷</h4>
+                      <ul className="credential-list">
+                        {selectedExpert.credentials.education.map((edu, index) => (
+                          <li key={index} className="credential-item">{edu}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="credential-section">
+                      <h4>專業認證</h4>
+                      <ul className="credential-list">
+                        {selectedExpert.credentials.certifications.map((cert, index) => (
+                          <li key={index} className="credential-item">{cert}</li>
+                        ))}
+                      </ul>
+                    </div>
+                    <div className="credential-section">
+                      <h4>工作經歷</h4>
+                      <ul className="credential-list">
+                        {selectedExpert.credentials.experience.map((exp, index) => (
+                          <li key={index} className="credential-item">{exp}</li>
+                        ))}
+                      </ul>
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Success Cases */}
-            <div className="expert-section">
-              <h3 className="section-title">成功案例</h3>
-              <div className="success-cases">
-                {selectedExpert.successCases.map((case_, index) => (
-                  <div key={index} className="success-case">
-                    <div className="case-company">{case_.company}</div>
-                    <div className="case-details">
-                      <div className="case-item">
-                        <span className="case-label">產業：</span>
-                        <span className="case-text">{case_.industry}</span>
-                      </div>
-                      <div className="case-item">
-                        <span className="case-label">挑戰：</span>
-                        <span className="case-text">{case_.challenge}</span>
-                      </div>
-                      <div className="case-item">
-                        <span className="case-label">解決方案：</span>
-                        <span className="case-text">{case_.solution}</span>
-                      </div>
-                      <div className="case-result">
-                        <span className="case-label">成果：</span>
-                        <span className="case-text">{case_.result}</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Credentials */}
-            <div className="expert-section">
-              <h3 className="section-title">學歷與認證</h3>
-              <div className="expert-credentials">
-                <div className="credential-section">
-                  <h4>學歷</h4>
-                  <ul className="credential-list">
-                    {selectedExpert.credentials.education.map((edu, index) => (
-                      <li key={index} className="credential-item">{edu}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="credential-section">
-                  <h4>專業認證</h4>
-                  <ul className="credential-list">
-                    {selectedExpert.credentials.certifications.map((cert, index) => (
-                      <li key={index} className="credential-item">{cert}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="credential-section">
-                  <h4>工作經歷</h4>
-                  <ul className="credential-list">
-                    {selectedExpert.credentials.experience.map((exp, index) => (
-                      <li key={index} className="credential-item">{exp}</li>
-                    ))}
-                  </ul>
                 </div>
               </div>
             </div>
@@ -272,7 +287,7 @@ export default function ExpertsPage() {
         </div>
 
         {/* Right Panel - All Experts Grid */}
-        <div className="experts-grid-panel">
+        <div className={`experts-grid-panel ${showExpertsList ? 'show' : 'hide'}`}>
           <div className="experts-grid-content">
             <div className="grid-header">
               <h2 className="grid-title">專家陣容</h2>
