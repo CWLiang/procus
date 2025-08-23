@@ -295,11 +295,8 @@ export default function Home() {
             專注 | PROCUS
           </Link>
           <div className="nav-menu">
-            <a href="#why-procus">為何選擇專注</a>
             <a href="#experts">專家陣容</a>
             <Link href="/experts">所有專家</Link>
-            <a href="#cases">成功案例</a>
-            <a href="#services">服務流程</a>
             <a href="#about">關於我們</a>
             <Link href="/consultation" className="contact-btn">免費企業健診</Link>
           </div>
@@ -316,7 +313,7 @@ export default function Home() {
         <div className="hero-content">
           <div className="hero-tagline">TOGETHER WE GROW</div>
           <h1>
-            連結<strong>企業需求</strong>與<strong>專業資源</strong><br/>
+            連結<strong>企業需求</strong>與<strong>專家經驗</strong><br/>
             共創真實的商業價值
           </h1>
           <p className="hero-subtitle">
@@ -328,15 +325,15 @@ export default function Home() {
               預約企業健診
               <span>→</span>
             </Link>
-            <a href="#services" className="cta-secondary">
-              了解服務流程
+            <a href="#experts" className="cta-secondary">
+              查看專家陣容
             </a>
           </div>
         </div>
       </section>
 
       {/* Pain Points & Value Section */}
-      <section id="why-procus" className="pain-points-section">
+      <section id="why-procus" className="pain-points-section" style={{display: 'none'}}>
         <div className="pain-points-container">
           <div className="pain-points-content">
             <h2>
@@ -473,7 +470,7 @@ export default function Home() {
       </section>
 
       {/* Success Cases Section */}
-      <section id="cases" className="cases-section">
+      <section id="cases" className="cases-section" style={{display: 'none'}}>
         <div className="section-header">
           <div className="section-tag">SUCCESS STORIES</div>
           <h2 className="section-title">真實的轉型成果</h2>
@@ -552,7 +549,7 @@ export default function Home() {
       </section>
 
       {/* Services Section */}
-      <section id="services" className="services-section">
+      <section id="services" className="services-section" style={{display: 'none'}}>
         <div className="section-header">
           <div className="section-tag">OUR PROCESS</div>
           <h2 className="section-title">專業顧問媒合流程</h2>
@@ -611,7 +608,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="cta-section">
+      <section className="cta-section" style={{display: 'none'}}>
         <div className="cta-content">
           <h2>準備好突破經營瓶頸了嗎？</h2>
           <p>立即預約企業健診，讓專業顧問協助您找到最佳解決方案</p>
@@ -644,14 +641,12 @@ export default function Home() {
           <div className="about-text">
             <h2>陪伴企業走得更長遠</h2>
             <p>
-              專注 Procus 深信，真正的顧問價值不在於提供建議，而在於陪伴執行與落地實踐。
+              Procus 深信，真正的顧問價值不在於提供建議，而在於陪伴執行與落地實踐。
             </p>
             <p>
               我們嚴選各領域的實戰專家，不只提供策略規劃，更重視執行陪跑，確保每個建議都能轉化為實際成果。
             </p>
-            <p>
-              透過系統化的媒合機制與成效追蹤，我們已協助超過 1,200 家企業成功轉型，創造可量化的商業價值。
-            </p>
+            
           </div>
           
           <div className="about-values">
@@ -680,7 +675,7 @@ export default function Home() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="faq-section">
+      <section id="faq" className="faq-section" style={{display: 'none'}}>
         <div className="section-header">
           <div className="section-tag">FAQ</div>
           <h2 className="section-title">常見問題</h2>
@@ -765,14 +760,14 @@ export default function Home() {
 
       {/* Footer */}
       <footer id="contact">
-        <div className="footer-content">
+        <div className="footer-content" style={{gap: '3rem', gridTemplateColumns: '2.5fr 1fr 1fr 1.5fr'}}>
           <div className="footer-brand">
             <h3>專注 | PROCUS</h3>
-            <p>
+            <p style={{marginBottom: '0.5rem'}}>
               我們致力於為企業找到最適合的專業顧問，透過精準媒合與陪伴式服務，
               協助企業突破經營瓶頸，實現持續成長。
             </p>
-            <div className="social-links">
+            <div className="social-links" style={{display: 'none'}}>
               <a href="#"><span>f</span></a>
               <a href="#"><span>in</span></a>
               <a href="#"><span>ig</span></a>
@@ -781,40 +776,35 @@ export default function Home() {
           </div>
 
           <div className="footer-section">
-            <h4>服務項目</h4>
+            <h4 style={{marginBottom: '1rem'}}>服務項目</h4>
             <ul className="footer-links">
-              <li><Link href="/experts">企業顧問諮詢</Link></li>
-              <li><a href="#services">服務流程說明</a></li>
-              <li><a href="#cases">成功案例分享</a></li>
-              <li><a href="#faq">常見問題</a></li>
+              <li><Link href="/experts">專家媒合諮詢</Link></li>
             </ul>
           </div>
 
           <div className="footer-section">
-            <h4>關於專注</h4>
+            <h4 style={{marginBottom: '1rem'}}>關於專注</h4>
             <ul className="footer-links">
               <li><a href="#about">公司介紹</a></li>
-              <li><a href="#">顧問團隊</a></li>
-              <li><a href="#">服務條款</a></li>
-              <li><a href="#">隱私政策</a></li>
+              <li><a href="#experts">專家團隊</a></li>
             </ul>
           </div>
 
           <div className="footer-section">
-            <h4>聯絡我們</h4>
+            <h4 style={{marginBottom: '1rem'}}>聯絡我們</h4>
             <p style={{color: 'var(--text-gray)', marginBottom: '1rem'}}>
               週一至週五 9:00-18:00<br/>
-              客服專線：0800-123-456<br/>
-              Email：contact@procus.tw
+              Phone：+886 970-767-307<br/>
+              Email：mikhorszee422@gmail.com
             </p>
-            <form className="newsletter-form">
+            <form className="newsletter-form" style={{display: 'none'}}>
               <input type="email" placeholder="訂閱電子報" />
               <button type="submit">訂閱</button>
             </form>
           </div>
         </div>
 
-        <div className="footer-bottom">
+        <div className="footer-bottom" style={{marginTop: '2rem', paddingTop: '1.5rem'}}>
           <p>&copy; 2024 專注 | Procus. All rights reserved. | 讓專業落地，讓價值實現</p>
         </div>
       </footer>

@@ -19,8 +19,25 @@ interface FormSubmission {
 }
 
 export async function POST(request: NextRequest) {
+  console.log('📧 Email API called at:', new Date().toISOString());
+
+  // Check environment variables
+  console.log('🔧 Environment check:', {
+    hasResendKey: !!process.env.RESEND_API_KEY,
+    hasAdminEmail: !!process.env.ADMIN_EMAIL,
+    adminEmail: process.env.ADMIN_EMAIL ?
+      process.env.ADMIN_EMAIL.replace(/(.{2}).*(@.*)/, '$1***$2') :
+      'not-set'
+  });
+
   try {
     const data: FormSubmission = await request.json();
+    console.log('📝 Form data received:', {
+      name: data.personalInfo.name,
+      company: data.personalInfo.company,
+      email: data.personalInfo.email,
+      answersCount: data.assessmentAnswers.length
+    });
 
     // 格式化問卷答案
     const formatAnswers = (answers: AssessmentAnswer[]) => {
@@ -95,11 +112,24 @@ ${formatAnswers(data.assessmentAnswers)}
     `;
 
     // 發送郵件
-    await resend.emails.send({
+    console.log('📤 Attempting to send email...');
+    console.log('📬 Email details:', {
+      from: 'onboarding@resend.dev',
+      to: process.env.ADMIN_EMAIL || 'your-actual-email@gmail.com',
+      subject: `🏢 新的企業健診提交 - ${data.personalInfo.company} (${data.personalInfo.name})`,
+      contentLength: emailContent.length
+    });
+
+    const emailResult = await resend.emails.send({
       from: 'onboarding@resend.dev', // 這需要是您在 Resend 驗證的域名
-      to: process.env.ADMIN_EMAIL || 'your-email@example.com',
+      to: process.env.ADMIN_EMAIL || 'your-actual-email@gmail.com',
       subject: `🏢 新的企業健診提交 - ${data.personalInfo.company} (${data.personalInfo.name})`,
       text: emailContent,
+    });
+
+    console.log('✅ Email sent successfully!', {
+      emailId: emailResult.data?.id,
+      timestamp: new Date().toISOString()
     });
 
     return NextResponse.json({
@@ -108,7 +138,12 @@ ${formatAnswers(data.assessmentAnswers)}
     });
 
   } catch (error) {
-    console.error('郵件發送失敗:', error);
+    console.error('❌ Email sending failed:', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      timestamp: new Date().toISOString(),
+      errorDetails: error
+    });
+
     return NextResponse.json(
       { success: false, message: '提交失敗，請稍後再試' },
       { status: 500 }

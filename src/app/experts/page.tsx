@@ -137,10 +137,7 @@ export default function ExpertsPage() {
             專注 | PROCUS
           </Link>
           <div className="nav-menu">
-            <Link href="/#why-procus">為何選擇專注</Link>
             <Link href="/#experts">專家陣容</Link>
-            <Link href="/#cases">成功案例</Link>
-            <Link href="/#services">服務流程</Link>
             <Link href="/#about">關於我們</Link>
             <Link href="/consultation" className="contact-btn">立即諮詢</Link>
           </div>
