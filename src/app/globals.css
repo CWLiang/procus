@@ -1431,32 +1431,47 @@ footer {
 .nav-menu.active {
   display: flex !important;
   position: fixed;
-  top: 80px;
+  top: 68px;
   left: 0;
   width: 100%;
-  height: calc(100vh - 80px);
-  background: rgba(15, 23, 42, 0.98);
-  backdrop-filter: blur(10px);
+  height: calc(100vh - 68px);
+  background: rgba(10, 15, 28, 0.98);
+  backdrop-filter: blur(15px);
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  padding: 2rem 0;
+  padding: 3rem 0;
   z-index: 1000;
   animation: slideDown 0.3s ease-out;
+  border-top: 1px solid var(--border-color);
 }
 
 .nav-menu.active a {
-  font-size: 1.2rem;
-  margin: 1rem 0;
-  padding: 1rem 2rem;
-  width: 80%;
+  font-size: 1.1rem;
+  margin: 0.8rem 0;
+  padding: 1.2rem 2rem;
+  width: 90%;
   text-align: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.nav-menu.active a:hover {
+  background: rgba(0, 102, 255, 0.1);
+  border-color: var(--accent-blue);
+  color: var(--text-white);
 }
 
 .nav-menu.active a:last-child {
-  border-bottom: none;
   margin-top: 2rem;
+  background: var(--accent-blue);
+  color: var(--text-white);
+  border-color: var(--accent-blue);
+}
+
+.nav-menu.active a:last-child:hover {
+  background: var(--accent-light-blue);
 }
 
 .mobile-menu-toggle.active span:nth-child(1) {
@@ -1482,7 +1497,25 @@ footer {
   }
 }
 
-/* Responsive */
+/* Responsive - Improved Mobile Navigation and Typography */
+@media (max-width: 1024px) {
+  .nav-container {
+    padding: 1rem 2rem;
+  }
+  
+  .hero {
+    padding: 0 2rem;
+  }
+  
+  .hero h1 {
+    font-size: 3rem;
+  }
+  
+  .experts-container {
+    padding: 0 2rem;
+  }
+}
+
 @media (max-width: 968px) {
   .nav-menu {
     display: none;
@@ -1492,8 +1525,24 @@ footer {
     display: flex;
   }
   
+  .nav-container {
+    padding: 1rem 1.5rem;
+  }
+  
+  .hero {
+    padding: 0 1.5rem;
+    min-height: 90vh;
+  }
+  
   .hero h1 {
     font-size: 2.5rem;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  
+  .hero-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 3rem;
   }
   
   .hero-cta {
@@ -1510,6 +1559,10 @@ footer {
     gap: 3rem;
   }
   
+  .experts-section {
+    padding: 6rem 0;
+  }
+  
   .experts-container {
     padding: 0 1.5rem;
   }
@@ -1519,15 +1572,33 @@ footer {
   }
   
   .expert-card {
-    width: 280px;
+    width: 300px;
     padding: 1.5rem;
-    gap: 1rem;
-    min-height: 320px;
+    gap: 1.2rem;
+    min-height: 360px;
   }
   
   .expert-avatar {
-    width: 160px;
-    height: 200px;
+    width: 120px;
+    height: 150px;
+  }
+  
+  .expert-name {
+    font-size: 1.1rem;
+  }
+  
+  .expert-title {
+    font-size: 0.9rem;
+  }
+  
+  .expert-bio {
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+  
+  .highlight-badge {
+    font-size: 0.7rem;
+    padding: 0.3rem 0.6rem;
   }
   
   .scroll-indicator {
@@ -1569,19 +1640,53 @@ footer {
 
 @media (max-width: 640px) {
   .nav-container {
-    padding: 1rem 1.5rem;
+    padding: 0.8rem 1rem;
+  }
+  
+  .logo {
+    font-size: 1.5rem;
+  }
+  
+  .logo-mark {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .logo-mark::before {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .logo-mark::after {
+    width: 16px;
+    height: 16px;
   }
   
   .hero {
-    padding: 0 1.5rem;
+    padding: 0 1rem;
+    min-height: 80vh;
   }
   
   .hero h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
+    line-height: 1.2;
   }
   
   .hero-subtitle {
-    font-size: 1.1rem;
+    font-size: 1rem;
+    margin-bottom: 2.5rem;
+  }
+  
+  .hero-tagline {
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .cta-primary, .cta-secondary {
+    padding: 0.8rem 1.5rem;
+    font-size: 0.95rem;
+    width: 100%;
+    justify-content: center;
   }
   
   .services-section,
@@ -1589,29 +1694,100 @@ footer {
   .about-section,
   .faq-section,
   .experts-section {
-    padding: 4rem 1.5rem;
+    padding: 3rem 1rem;
   }
   
-  .expert-name {
-    font-size: 1.2rem;
+  .section-title {
+    font-size: 1.8rem;
   }
   
-  .expert-title {
+  .section-desc {
     font-size: 0.95rem;
   }
   
+  .expert-card {
+    width: 260px;
+    padding: 1.2rem;
+    min-height: 340px;
+  }
+  
+  .expert-avatar {
+    width: 100px;
+    height: 130px;
+  }
+  
+  .expert-name {
+    font-size: 1rem;
+  }
+  
+  .expert-title {
+    font-size: 0.8rem;
+  }
+  
+  .expert-expertise {
+    font-size: 0.75rem;
+  }
+  
   .expert-bio {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
+    line-height: 1.3;
   }
   
   .highlight-badge {
-    font-size: 0.75rem;
-    padding: 0.3rem 0.6rem;
+    font-size: 0.65rem;
+    padding: 0.25rem 0.5rem;
   }
   
   .cta-stats {
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem;
+  }
+  
+  .about-values {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .about-text h2 {
+    font-size: 1.8rem;
+    line-height: 1.2;
+  }
+  
+  .about-text p {
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  
+  .value-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.8rem;
+  }
+  
+  .value-title {
+    font-size: 1rem;
+  }
+  
+  .value-desc {
+    font-size: 0.85rem;
+  }
+  
+  .footer-content {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+    text-align: center;
+  }
+  
+  .footer-brand h3 {
+    font-size: 1.5rem;
+  }
+  
+  .footer-links {
+    margin-bottom: 1.5rem;
+  }
+  
+  .scroll-indicator {
+    display: none;
   }
 
 
@@ -1648,6 +1824,80 @@ footer {
 
   .grid-subtitle {
     font-size: 0.65rem !important;
+  }
+}
+
+/* Extra small devices - Improved for very small screens */
+@media (max-width: 480px) {
+  .hero {
+    padding: 0 0.8rem;
+  }
+  
+  .hero h1 {
+    font-size: 1.6rem;
+    line-height: 1.1;
+  }
+  
+  .hero-subtitle {
+    font-size: 0.9rem;
+  }
+  
+  .hero-tagline {
+    font-size: 0.8rem;
+  }
+  
+  .cta-primary, .cta-secondary {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
+  }
+  
+  .expert-card {
+    width: 240px;
+    padding: 1rem;
+    min-height: 320px;
+  }
+  
+  .expert-avatar {
+    width: 80px;
+    height: 110px;
+  }
+  
+  .expert-name {
+    font-size: 0.9rem;
+  }
+  
+  .expert-title, .expert-expertise {
+    font-size: 0.75rem;
+  }
+  
+  .expert-bio {
+    font-size: 0.75rem;
+    line-height: 1.2;
+  }
+  
+  .highlight-badge {
+    font-size: 0.6rem;
+    padding: 0.2rem 0.4rem;
+  }
+  
+  .section-title {
+    font-size: 1.6rem;
+  }
+  
+  .section-desc {
+    font-size: 0.9rem;
+  }
+  
+  .about-text h2 {
+    font-size: 1.6rem;
+  }
+  
+  .services-section,
+  .cases-section,
+  .about-section,
+  .faq-section,
+  .experts-section {
+    padding: 2.5rem 0.8rem;
   }
 }
 
