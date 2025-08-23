@@ -1662,8 +1662,8 @@ footer {
 }
 
 .expert-detail-panel {
-  flex: 1;
-  max-width: 50%;
+  flex: 4;
+  max-width: 80%;
   background: white;
   overflow-y: auto;
   overflow-x: hidden;
@@ -1692,8 +1692,8 @@ footer {
 }
 
 .expert-detail-content {
-  padding: 60px 50px;
-  max-width: 600px;
+  padding: 40px 60px;
+  max-width: 100%;
   margin: 0 auto;
   width: 100%;
 }
@@ -1701,9 +1701,9 @@ footer {
 .expert-header {
   display: flex;
   align-items: flex-start;
-  gap: 30px;
-  margin-bottom: 50px;
-  padding-bottom: 40px;
+  gap: 40px;
+  margin-bottom: 40px;
+  padding-bottom: 30px;
   border-bottom: 2px solid #e2e8f0;
 }
 
@@ -1800,7 +1800,7 @@ footer {
 }
 
 .expert-section {
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
 
 .expert-section .section-title {
@@ -1832,7 +1832,8 @@ footer {
 
 .specialties-list {
   display: grid;
-  gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
 }
 
 .specialty-item {
@@ -1865,6 +1866,7 @@ footer {
 
 .success-cases {
   display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 30px;
 }
 
@@ -1914,8 +1916,8 @@ footer {
 
 .expert-credentials {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
   margin-bottom: 50px;
 }
 
@@ -1953,8 +1955,9 @@ footer {
 
 .expert-cta {
   text-align: center;
-  padding: 40px 0;
+  padding: 30px 0;
   border-top: 2px solid #e2e8f0;
+  margin-top: 20px;
 }
 
 .expert-cta .cta-primary {
@@ -1988,7 +1991,7 @@ footer {
 
 .experts-grid-panel {
   flex: 1;
-  max-width: 50%;
+  max-width: 20%;
   overflow-y: auto;
   overflow-x: hidden;
   background: #f8fafc;
@@ -2014,7 +2017,7 @@ footer {
 }
 
 .experts-grid-content {
-  padding: 60px 40px;
+  padding: 40px 20px;
   min-height: 600px;
 }
 
@@ -2038,24 +2041,24 @@ footer {
 
 .experts-grid-container {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  grid-template-columns: 1fr;
+  gap: 16px;
   padding: 8px 0;
   min-height: 500px;
 }
 
 .expert-grid-card {
   background: white;
-  border-radius: 16px;
-  padding: 24px 20px;
+  border-radius: 12px;
+  padding: 16px 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   transition: all 0.3s ease;
   cursor: pointer;
   border: 2px solid transparent;
-  min-height: 440px;
+  min-height: 380px;
   display: flex;
   flex-direction: column;
-  margin: 6px 0;
+  margin: 4px 0;
 }
 
 .expert-grid-card:hover {
@@ -2072,12 +2075,12 @@ footer {
 
 .expert-grid-avatar {
   text-align: center;
-  width: 100px;
-  height: 130px;
+  width: 80px;
+  height: 100px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 8px auto 20px auto;
+  margin: 6px auto 12px auto;
   overflow: hidden;
   border-radius: 10px;
 }
@@ -2130,17 +2133,17 @@ footer {
 }
 
 .expert-grid-name {
-  font-size: 1.2rem;
+  font-size: 1rem;
   font-weight: 700;
   color: #1e293b;
   margin-bottom: 6px;
 }
 
 .expert-grid-title {
-  font-size: 1rem;
+  font-size: 0.85rem;
   color: #3b82f6;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .expert-grid-expertise {
