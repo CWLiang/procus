@@ -170,13 +170,6 @@ export default function ExpertsPage() {
               <div className="expert-main-info">
                 <div className="expert-name-section">
                   <h1 className="expert-main-name">{selectedExpert.name}</h1>
-                  <button 
-                    onClick={() => setShowExpertsList(!showExpertsList)}
-                    className="experts-toggle-btn-inline"
-                  >
-                    {showExpertsList ? '隱藏專家列表' : '查看所有專家'}
-                    <span>{showExpertsList ? '←' : '→'}</span>
-                  </button>
                 </div>
                 <div className="expert-main-title">{selectedExpert.title}</div>
                 <div className="expert-main-expertise">{selectedExpert.expertise}</div>
@@ -186,6 +179,25 @@ export default function ExpertsPage() {
                   ))}
                 </div>
               </div>
+            </div>
+            
+            {/* Improved Experts Toggle Button - Fixed Position */}
+            <div className="experts-toggle-container">
+              <button 
+                onClick={() => setShowExpertsList(!showExpertsList)}
+                className={`experts-toggle-btn ${showExpertsList ? 'active' : ''}`}
+                aria-label={showExpertsList ? '隱藏專家列表' : '查看所有專家'}
+              >
+                <span className="btn-icon">
+                  {showExpertsList ? '×' : '👥'}
+                </span>
+                <span className="btn-text">
+                  {showExpertsList ? '隱藏專家列表' : '查看所有專家'}
+                </span>
+                <span className="btn-arrow">
+                  {showExpertsList ? '←' : '→'}
+                </span>
+              </button>
             </div>
 
             {/* Expert Sections - Two Column Layout */}
