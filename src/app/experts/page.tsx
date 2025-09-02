@@ -85,6 +85,25 @@ export default function ExpertsPage() {
       }
     };
 
+    // Intersection Observer for animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animate-in');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    // Observe all fade-in sections
+    const fadeInElements = document.querySelectorAll('.fade-in-section');
+    fadeInElements.forEach(el => observer.observe(el));
+
     // Add event listeners
     window.addEventListener('scroll', handleScroll);
     document.querySelector('.mobile-menu-toggle')?.addEventListener('click', handleMobileMenuClick);
@@ -125,8 +144,122 @@ export default function ExpertsPage() {
       if (rightPanel) {
         rightPanel.removeEventListener('scroll', preventScrollPropagation);
       }
+
+      observer.disconnect();
     };
   }, []);
+
+  // Get KPI data for selected expert
+  const getExpertKPIs = (expert: ExpertData) => {
+    switch (expert.id) {
+      case 'Aaron':
+        return [
+          { value: '破億', label: '資金規模', description: 'DeFi金融產品交易量與鎖倉量', color: 'blue' },
+          { value: '10年', label: '技術經驗', description: '程式自動化與AI應用深度經驗', color: 'purple' },
+          { value: '3大', label: '核心領域', description: 'AI自動化、DeFi開發、數據分析', color: 'green' },
+          { value: '100%', label: '專案成功率', description: '從學術研究到商業落地的完整實踐', color: 'orange' }
+        ];
+      case 'Charlie':
+        return [
+          { value: '百億', label: '企業規模', description: '協助企業總規模超過百億元', color: 'purple' },
+          { value: '10大', label: '產業經驗', description: '跨房仲、教育、食品等多元產業', color: 'blue' },
+          { value: '13年', label: '特助資歷', description: '老闆特助經驗，深諳決策者思維', color: 'green' },
+          { value: '破億', label: '募資成果', description: '協助創辦人成功募資破億元', color: 'orange' }
+        ];
+      case 'Mikhor':
+        return [
+          { value: '105家', label: '企業客戶', description: '一年內從零開始成功開發的跨產業客戶數量', color: 'brown' },
+          { value: '30%', label: '營收增長', description: '協助美學工作室在2個月內實現的營收增長率', color: 'green' },
+          { value: '23%', label: '市場轉化率', description: '首次進入馬來西亞市場，三個月內達成的線上高價值方案轉化率', color: 'blue' },
+          { value: '100%', label: '客戶滿意度', description: '長期陪跑超過20位企業主，始終將客戶成功置於首位', color: 'purple' }
+        ];
+      default:
+        return [];
+    }
+  };
+
+  // Get timeline data for selected expert
+  const getExpertTimeline = (expert: ExpertData) => {
+    switch (expert.id) {
+      case 'Aaron':
+        return [
+          {
+            period: '學術研究期',
+            age: '博士階段',
+            title: '技術基礎奠定',
+            description: '交大電機博士，專精半導體設計自動化，獲最佳博士論文獎',
+            color: 'blue'
+          },
+          {
+            period: '技術深耕期', 
+            age: '十年積累',
+            title: '雙軌專業發展',
+            description: '程式自動化開發與AI機器學習並行，累積深厚實戰經驗',
+            color: 'purple'
+          },
+          {
+            period: '創業實踐期',
+            age: '破億成果',
+            title: 'DeFi全棧開發',
+            description: '從零打造去中心化金融平台，達成破億資金規模里程碑',
+            color: 'green'
+          }
+        ];
+      case 'Charlie':
+        return [
+          {
+            period: '學習成長期',
+            age: '大學階段',
+            title: '管理基礎建立',
+            description: '台灣大學農經所碩士，建立經濟與管理理論基礎',
+            color: 'purple'
+          },
+          {
+            period: '實戰累積期',
+            age: '13年歷練',
+            title: '特助經驗深化',
+            description: '13年老闆特助資歷，跨10大產業，累積百億企業經驗',
+            color: 'blue'
+          },
+          {
+            period: '顧問專精期',
+            age: '現階段',
+            title: '轉型升級專家',
+            description: '專注企業轉型與組織升級，實現戰略與實戰並行',
+            color: 'green'
+          }
+        ];
+      case 'Mikhor':
+        return [
+          {
+            period: '多元發展期',
+            age: '17-23歲',
+            title: '跨領域能力培養',
+            description: '從高中校隊到大學跨界實習，展現卓越多工管理能力',
+            color: 'brown'
+          },
+          {
+            period: '專業認證期',
+            age: '23-27歲',
+            title: '國際資格取得',
+            description: '取得NLP、國際催眠師等專業認證，建立顧問基礎',
+            color: 'blue'
+          },
+          {
+            period: '創業領導期',
+            age: '27歲至今',
+            title: 'Procus創辦與市場拓展',
+            description: '創辦Procus，成功開發105家企業客戶，達成卓越業績',
+            color: 'green'
+          }
+        ];
+      default:
+        return [];
+    }
+  };
+
+  const kpis = getExpertKPIs(selectedExpert);
+  const timeline = getExpertTimeline(selectedExpert);
 
   return (
     <>
@@ -155,33 +288,34 @@ export default function ExpertsPage() {
         {/* Left Panel - Selected Expert Detail */}
         <div className={`expert-detail-panel ${showExpertsList ? '' : 'full-width'}`}>
           <div className="expert-detail-content">
-            {/* Expert Header */}
-            <div className="expert-header">
-              <div className="expert-main-avatar">
-                <ExpertAvatar 
-                  name={selectedExpert.name}
-                  image={selectedExpert.image}
-                  fallbackGradient={selectedExpert.fallbackGradient}
-                  fallbackInitials={selectedExpert.fallbackInitials}
-                  size="large"
-                  className="expert-main-avatar-image"
-                />
-              </div>
-              <div className="expert-main-info">
-                <div className="expert-name-section">
-                  <h1 className="expert-main-name">{selectedExpert.name}</h1>
+            
+            {/* Expert Hero Section */}
+            <div className="expert-hero fade-in-section">
+              <div className="expert-hero-content">
+                <div className="expert-main-avatar">
+                  <ExpertAvatar 
+                    name={selectedExpert.name}
+                    image={selectedExpert.image}
+                    fallbackGradient={selectedExpert.fallbackGradient}
+                    fallbackInitials={selectedExpert.fallbackInitials}
+                    size="large"
+                    className="expert-main-avatar-image"
+                  />
                 </div>
-                <div className="expert-main-title">{selectedExpert.title}</div>
-                <div className="expert-main-expertise">{selectedExpert.expertise}</div>
-                <div className="expert-main-highlights">
-                  {selectedExpert.highlights.map((highlight, index) => (
-                    <span key={index} className="main-highlight-badge">{highlight}</span>
-                  ))}
+                <div className="expert-main-info">
+                  <h1 className="expert-main-name">{selectedExpert.name}</h1>
+                  <div className="expert-main-title">{selectedExpert.title}</div>
+                  <div className="expert-main-expertise">{selectedExpert.expertise}</div>
+                  <div className="expert-main-highlights">
+                    {selectedExpert.highlights.map((highlight, index) => (
+                      <span key={index} className="main-highlight-badge">{highlight}</span>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
             
-            {/* Improved Experts Toggle Button - Fixed Position */}
+            {/* Improved Experts Toggle Button */}
             <div className="experts-toggle-container">
               <button 
                 onClick={() => setShowExpertsList(!showExpertsList)}
@@ -200,96 +334,130 @@ export default function ExpertsPage() {
               </button>
             </div>
 
-            {/* Expert Sections - Two Column Layout */}
-            <div className="expert-sections-container">
-              {/* Left Column: Bio + Cases */}
-              <div className="expert-left-column">
-                <div className="expert-section">
-                  <h3 className="section-title">專業背景</h3>
-                  <p className="expert-full-bio">{selectedExpert.fullBio}</p>
-                </div>
-                
-                <div className="expert-section">
-                  <h3 className="section-title">成功案例</h3>
-                  <div className="success-cases">
-                    {selectedExpert.successCases.map((case_, index) => (
-                      <div key={index} className="success-case">
-                        <div className="case-company">{case_.company}</div>
-                        <div className="case-details">
-                          <div className="case-item">
-                            <span className="case-label">產業：</span>
-                            <span className="case-text">{case_.industry}</span>
-                          </div>
-                          <div className="case-item">
-                            <span className="case-label">挑戰：</span>
-                            <span className="case-text">{case_.challenge}</span>
-                          </div>
-                          <div className="case-item">
-                            <span className="case-label">解決方案：</span>
-                            <span className="case-text">{case_.solution}</span>
-                          </div>
-                          <div className="case-result">
-                            <span className="case-label">成果：</span>
-                            <span className="case-text">{case_.result}</span>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
+            {/* Professional Bio Section */}
+            <section className="expert-bio-section fade-in-section">
+              <h2 className="section-title">專業背景</h2>
+              <div className="expert-bio-content">
+                <p className="expert-full-bio">{selectedExpert.fullBio}</p>
+              </div>
+            </section>
+
+            <hr className="section-divider" />
+
+            {/* KPI Data Cards Section */}
+            <section className="expert-kpi-section fade-in-section">
+              <h2 className="section-title">核心成就數據</h2>
+              <div className="kpi-grid">
+                {kpis.map((kpi, index) => (
+                  <div key={index} className={`kpi-card kpi-${kpi.color}`}>
+                    <div className="kpi-number">{kpi.value}</div>
+                    <h3 className="kpi-label">{kpi.label}</h3>
+                    <p className="kpi-description">{kpi.description}</p>
                   </div>
+                ))}
+              </div>
+            </section>
+
+            <hr className="section-divider" />
+
+            {/* Professional Development Timeline */}
+            <section className="expert-timeline-section fade-in-section">
+              <h2 className="section-title">專業發展歷程</h2>
+              <div className="timeline-container">
+                {timeline.map((period, index) => (
+                  <div key={index} className={`timeline-card timeline-${period.color}`}>
+                    <div className="timeline-period">{period.period}</div>
+                    <div className="timeline-age">{period.age}</div>
+                    <h3 className="timeline-title">{period.title}</h3>
+                    <p className="timeline-description">{period.description}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <hr className="section-divider" />
+
+            {/* Enhanced Case Studies */}
+            <section className="expert-cases-section fade-in-section">
+              <h2 className="section-title">實戰案例：成功實績</h2>
+              <div className="case-studies-grid">
+                {selectedExpert.successCases.map((case_, index) => (
+                  <div key={index} className="case-study-card">
+                    <div className="case-header">
+                      <h3 className="case-title">{case_.company}</h3>
+                      <span className="case-industry">{case_.industry}</span>
+                    </div>
+                    <div className="case-content">
+                      <div className="case-section">
+                        <h4 className="case-section-title">挑戰</h4>
+                        <p className="case-text">{case_.challenge}</p>
+                      </div>
+                      <div className="case-section">
+                        <h4 className="case-section-title">解決方案</h4>
+                        <p className="case-text">{case_.solution}</p>
+                      </div>
+                      <div className="case-result-section">
+                        <h4 className="case-section-title">成果</h4>
+                        <p className="case-result-text">{case_.result}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </section>
+
+            <hr className="section-divider" />
+
+            {/* Specialties and Credentials - Side by Side */}
+            <div className="expert-bottom-sections fade-in-section">
+              <div className="expert-specialties-section">
+                <h2 className="section-title">專業領域</h2>
+                <div className="specialties-grid">
+                  {selectedExpert.specialties.map((specialty, index) => (
+                    <div key={index} className="specialty-card">
+                      <div className="specialty-icon">{specialty.icon}</div>
+                      <div className="specialty-content">
+                        <h4 className="specialty-title">{specialty.title}</h4>
+                        <p className="specialty-description">{specialty.description}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 
-              {/* Right Column: Specialties + Credentials */}
-              <div className="expert-right-column">
-                <div className="expert-section">
-                  <h3 className="section-title">專業領域</h3>
-                  <div className="specialties-list">
-                    {selectedExpert.specialties.map((specialty, index) => (
-                      <div key={index} className="specialty-item">
-                        <span className="specialty-icon">{specialty.icon}</span>
-                        <div className="specialty-text">
-                          <h4>{specialty.title}</h4>
-                          <p>{specialty.description}</p>
-                        </div>
-                      </div>
-                    ))}
+              <div className="expert-credentials-section">
+                <h2 className="section-title">學歷與認證</h2>
+                <div className="credentials-container">
+                  <div className="credential-group">
+                    <h4 className="credential-group-title">學歷</h4>
+                    <ul className="credential-list">
+                      {selectedExpert.credentials.education.map((edu, index) => (
+                        <li key={index} className="credential-item">{edu}</li>
+                      ))}
+                    </ul>
                   </div>
-                </div>
-                
-                <div className="expert-section">
-                  <h3 className="section-title">學歷與認證</h3>
-                  <div className="expert-credentials">
-                    <div className="credential-section">
-                      <h4>學歷</h4>
-                      <ul className="credential-list">
-                        {selectedExpert.credentials.education.map((edu, index) => (
-                          <li key={index} className="credential-item">{edu}</li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div className="credential-section">
-                      <h4>專業認證</h4>
-                      <ul className="credential-list">
-                        {selectedExpert.credentials.certifications.map((cert, index) => (
-                          <li key={index} className="credential-item">{cert}</li>
-                        ))}
-                      </ul>
-                    </div>
-                    <div className="credential-section">
-                      <h4>工作經歷</h4>
-                      <ul className="credential-list">
-                        {selectedExpert.credentials.experience.map((exp, index) => (
-                          <li key={index} className="credential-item">{exp}</li>
-                        ))}
-                      </ul>
-                    </div>
+                  <div className="credential-group">
+                    <h4 className="credential-group-title">專業認證</h4>
+                    <ul className="credential-list">
+                      {selectedExpert.credentials.certifications.map((cert, index) => (
+                        <li key={index} className="credential-item">{cert}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="credential-group">
+                    <h4 className="credential-group-title">工作經歷</h4>
+                    <ul className="credential-list">
+                      {selectedExpert.credentials.experience.map((exp, index) => (
+                        <li key={index} className="credential-item">{exp}</li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* CTA */}
-            <div className="expert-cta">
+            <div className="expert-cta fade-in-section">
               <Link href="/consultation" className="cta-primary">
                 立即預約諮詢
                 <span>→</span>
@@ -342,4 +510,4 @@ export default function ExpertsPage() {
       </div>
     </>
   );
-} 
+}
